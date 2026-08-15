@@ -1,0 +1,1423 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Victoria Weller vs. the talent war</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="description" content="A personalised 60-second game from Kota, built from evidence—not mail merge." />
+<meta name="theme-color" content="#6C5CE7" />
+<link rel="canonical" href="https://gtm-hero.vercel.app/g/elevenlabs" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Kota" />
+<meta property="og:title" content="Victoria Weller vs. the talent war" />
+<meta property="og:description" content="A personalised 60-second game from Kota, built from evidence—not mail merge." />
+<meta property="og:url" content="https://gtm-hero.vercel.app/g/elevenlabs" />
+<meta property="og:image" content="https://gtm-hero.vercel.app/g/elevenlabs/og.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Arcade card: Victoria Weller against 4 competitors" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Victoria Weller vs. the talent war" />
+<meta name="twitter:description" content="A personalised 60-second game from Kota, built from evidence—not mail merge." />
+<meta name="twitter:image" content="https://gtm-hero.vercel.app/g/elevenlabs/og.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<script>
+/* ==========================================================================
+   CONFIG — THE ONLY THING YOU EDIT PER PROSPECT
+   --------------------------------------------------------------------------
+   Everything below this block is a fixed, dumb engine. It contains no names,
+   no companies and no competitors. Change the values here and you get a
+   completely different personalised deck. Nothing else needs to be touched.
+   ========================================================================== */
+const TEMPLATE_CONFIG = {
+
+  // The person who receives the link — the hero of the deck.
+  person: {
+    name:           "Alex Rivera",          // shown in credits + final card
+    title:          "Head of People",       // their job title today
+    promotionTitle: "Chief People Officer"  // pre-computed promotion (the engine never derives this)
+  },
+
+  // The prospect's company — the place they get promoted at.
+  company: {
+    name: "ElevenLabs"
+  },
+
+  // The asteroids: 3–4 of the prospect's competitors, from the lead-research
+  // record. `logo` is optional — any square image data-URI, drawn inside the
+  // asteroid. With no logo the engine falls back to the name alone, so a
+  // missing logo never breaks the game.
+  enemies: [
+    { name: "OpenAI",   logo: null   },
+    { name: "Descript", logo: null },
+    { name: "Murf AI",  logo: null     },
+    { name: "PlayHT",   logo: null     }
+  ],
+
+  // The narrative frame. Keeps the engine dumb — all wording lives here.
+  story: {
+    threat:  "THE COMPANIES POACHING",     // "{person} vs. {threat} {company}"
+    mission: "DEFEND YOUR PEOPLE. GET PROMOTED.",
+    verb:    "OUT-HIRED",                  // stamped over each rival in the credits
+    weapon:  "BENEFITS THEY CAN'T MATCH"   // what the player is firing
+  },
+
+  // Deck-level copy: the terminal gate, the shooter, the interlude.
+  deck: {
+    password:   "kota",                    // case-insensitive
+    killTarget: 2,                         // rivals to down before the field clears
+    bootLines: [
+      "KOTA SYSTEMS v1.0",
+      "> INITIALIZING BRIEF...",
+      "> ACCESS RESTRICTED",
+      "> ENTER PASSWORD:"
+    ],
+    granted: [
+      "> ACCESS GRANTED",
+      "> WARNING: TALENT RAID IN PROGRESS",
+      "> KOTA WANTS TO HELP YOU WIN THE WAR"
+    ],
+    hint:      "hint: who sent you this link?",
+    gameTitle: "THE TALENT WARS",
+    gameSub:   "— DEFEND YOUR PEOPLE —",
+    interlude: {
+      beat1: "ONE BATTLE WON.",
+      beat2: "Here's how Kota helps you win the war."
+    }
+  },
+
+  /* ------------------------------------------------------------------------
+     THE PILLARS — "how Kota can help them". This is the payload of the deck.
+
+     ⚠ THE FIGURES BELOW ARE ILLUSTRATIVE PLACEHOLDERS. ⚠
+     Most are structural and true by construction (one bill, one renewal date,
+     day-one cover). The three marked `est: true` are invented and MUST be
+     replaced with real Kota data before this link is sent to any prospect:
+       · "90% LESS ADMIN TIME"   (pillar I)
+       · "4 IN 5 ENROL UNPROMPTED" (pillar II)
+       · "2× OFFER-ACCEPT LIFT"  (pillar III)
+     ------------------------------------------------------------------------ */
+  pillars: [
+    {
+      num:   "I",
+      title: "BENEFITS ADMIN, GONE",
+      sub:   "One dashboard replaces the spreadsheet, the broker thread and the month-end reconcile.",
+      items: [
+        {
+          code:  "1.1",
+          title: "ENROL, CHANGE, OFFBOARD — IN A CLICK",
+          gist:  "Every benefits action is self-serve. None of them is an email to you.",
+          points: [
+            "Your team enrols themselves, no HR ticket",
+            "Joiners and leavers handled the same day",
+            "Every change logged and audit-ready"
+          ]
+        },
+        {
+          code:  "1.2",
+          title: "NO MORE BROKER PING-PONG",
+          gist:  "Stop chasing three inboxes to answer one question about one policy.",
+          points: [
+            "Every policy document in one place",
+            "Answers your team can find without you",
+            "Nothing to reconcile at month end"
+          ]
+        }
+      ],
+      stats: [
+        { text: "1",       label: "DASHBOARD" },
+        { text: "0",       label: "SPREADSHEETS" },
+        { text: "1 CLICK", label: "TO OFFBOARD" },
+        { text: "SAME DAY", label: "JOINERS LIVE" },
+        { value: 90, suffix: "%", label: "LESS ADMIN TIME", est: true }
+      ]
+    },
+    {
+      num:   "II",
+      title: "COVER PEOPLE ACTUALLY USE",
+      sub:   "Health, wellbeing and pension in one place. One renewal. One bill.",
+      items: [
+        {
+          code:  "2.1",
+          title: "ONE PACKAGE, NOT FIVE POLICIES",
+          gist:  "Everything under one roof, on one renewal date, from one invoice.",
+          points: [
+            "Health, dental, life and pension together",
+            "One renewal to run, not five",
+            "One bill your finance team recognises"
+          ]
+        },
+        {
+          code:  "2.2",
+          title: "A PACKAGE THEY CAN SEE",
+          gist:  "Cover nobody knows about retains nobody. Make it visible.",
+          points: [
+            "Everyone can see exactly what they have",
+            "Usage you can put in front of your CFO",
+            "Flexes as the team grows, without a re-paper"
+          ]
+        }
+      ],
+      stats: [
+        { text: "1",     label: "RENEWAL DATE" },
+        { text: "1",     label: "BILL" },
+        { text: "1 ROOF", label: "HEALTH · LIFE · PENSION" },
+        { text: "4 IN 5", label: "ENROL UNPROMPTED", est: true },
+        { text: "ANY SIZE", label: "SCALES WITH HEADCOUNT" }
+      ]
+    },
+    {
+      num:   "III",
+      title: "ONBOARDING THAT CLOSES CANDIDATES",
+      sub:   "Benefits live on day one — a package a rival can't quietly beat.",
+      items: [
+        {
+          code:  "3.1",
+          title: "COVERED BEFORE THE LAPTOP ARRIVES",
+          gist:  "Cover is active from the start date. Day one has no paperwork in it.",
+          points: [
+            "Live from the first morning, not the first month",
+            "Nothing for a new hire to chase",
+            "A first day that reads as considered"
+          ]
+        },
+        {
+          code:  "3.2",
+          title: "THE OFFER THEY CAN COMPARE",
+          gist:  "When they're weighing two offers, make yours the legible one.",
+          points: [
+            "A package a candidate can actually see",
+            "Harder to poach on salary alone",
+            "Something concrete to point at in the final call"
+          ]
+        }
+      ],
+      stats: [
+        { text: "DAY ONE", label: "COVER ACTIVE" },
+        { text: "0",       label: "FORMS ON DAY ONE" },
+        { text: "2×",      label: "OFFER-ACCEPT LIFT", est: true },
+        { text: "VISIBLE", label: "TO EVERY CANDIDATE" }
+      ]
+    }
+  ],
+
+  // The selling company — static, the same for every prospect.
+  vendor: {
+    name:        "Kota",
+    tagline:     "Benefits in one click",
+    accentColor: "#6C5CE7",                 // Kota purple — ship, buttons, glow
+    ctaUrl:      "https://kota.io/demo"
+  }
+
+};
+const PROSPECT_CONFIG = {
+  "person": {
+    "name": "Victoria Weller",
+    "title": "Operations",
+    "promotionTitle": "The Invisible Operator"
+  },
+  "company": {
+    "name": "ElevenLabs"
+  },
+  "enemies": [
+    {
+      "name": "OpenAI",
+      "logo": "data:image/png;base64,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"
+    },
+    {
+      "name": "Descript",
+      "logo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAAJ1BMVEVHcExlGjhlGjllGjn4OztlGjlgGDmuKjrBLzp6HjnrODvcNTuNIzqpLj8jAAAABHRSTlMANdqVaoELvwAAAyZJREFUeJztm+uWqyAMheuFO+//vKNtpwWNMQE0c9Zh92dp8xkQAiGPx0fDMI2julzjOA3DY6/F+vXG39ILw9b+dJv1t6b88e97+o/GxAnD/eZXDcL2vwQC/n9pFBp/X02iHbBqkHXA0wUSb+BXy7so2gNKD7I9sPaBaA+sb6I4gKx9pTpAByAAaI1+uepKAK2MDYhsMDGqcopTgOhngrw10akShjOASDH/UrDR8RFwAO1Iz//xgzf4iOEDWI79p4xzDQFUYAMsw4E1IHEAx7f/8gKdAAXQjCGYe4FOcA3AvI5GUYDlpSQS4GOgAoBKcJkHFgLS+3jyFtgaRYoLCItR2YeqfyEe6AAdoAP83wA6F6EJpHIAZ00iKOjV2kWDy8ZigM1q6L3dTvLahfO4GY2PmPFA2Ng3pIUZWxa58YDNW5Dsz6GdB2afPg3RAeUAUESUAVC3DUgfsGNC8/0vrakbN1sIAHnApB6gAiB9wPZATD1A7YJwbILrgSzUpQ7CfOjWecDk/0R0QSnA3gN224A4CkyxB3yisI/0tbIh+FNtwckALiaCNzraZY0OdLxJYizHR03qFuS/HpB0gA7QATqAOxF4FrNMfPuGRQDLYoflKlbFHQKY4TClAAVLPXjCX7gck84JN/seB8Yo5fEAQVnIC2cYkM1Zg5NSn44w2AHIoWmLs+L08Q4AGu4LAKWROhwklm5MaB5IO/ggy1W6NSOOgezfwS5AbDTwQP540E+QHmgxD2x+BLjgeBao94DfT7J2OwzQzEVlwgJK0GlnTN4IM1G3HMMRf8PE5Q3qAB2gA3QAXsKCqXoAd5KLwFWfvK5L38/16fsqgEC7R3LZDYomVzgqPLDLLt3rAY8myhgeKLzIFEjjnwCgFOsu26951zAi4t8ls+QrTBQA8nH8Wz6wbzWeTcXUnMjTumE5nwRAvdI5hyVCLzBPuUfkDJKSeB0ALbM+de3hA6wLInZMpipu1NIAnhDwp+pCMQvgQnUAeQDZEg/9B2pMxMt8ZAud1CBf6iVe7CZf7ide8Chf8ilf9Cpe9itf+Cxf+n1z8bsCit8fUuX/Pyn0QDQBHTCxAAAAAElFTkSuQmCC"
+    },
+    {
+      "name": "Murf AI",
+      "logo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAABklBMVEVHcEzSG52qiP/gHZ61I+ePRfblJoLHsv97Yf+iNO9+WP25pf9yVv+7QNJ2XP/lH4n5S3NzXf9/Yv7KKMqmkf/fOan+f1zDHd7xInSAaf+Ufv/7rMnwC2n///90Xf/Gsv9zXP+Mcf/wIHOrLeuGbf/CmP+gNu/Fm/+jjv+zJeiqlf+Pdv+6H+a9lf+Caf+tif/Knv/Wp//IFd+xnP/pHbP/nD74Q3LOof99Zf//Sm3/jEj0P3W4o//RpP//k0KxjP+diP+SfP/BGeT7Rm+TQfSohf/PF9f/rTN4Yf+Xd//oM36ce/+Ygv/sN3vrHaXcGsfkG77/hEzZq///pDnwO3j/fVCkgv/VGM//a1njLoG6k/+gf///tjPfKoXsHpi9qf+1j///vzC4kf//dFXaJIj/WmPUHozDrv//Umj/Yl/MF5L/ySfuH4vs1/vvIH/z6f//7tT/0GLvBG/9+Pr/46pqUP/ayv/cvP/6bpLMt//oXcTyVY37vND7iaX/07f/p5XsQoTXQ834osb8AJAAGU1HcEyZRm6XAAAAhnRSTlMA5Tlr7O3C7Tztme1kE8k0x+0k+qz+xKTl7emUzP//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AIo3cXEAAAr9SURBVHic7Zv5VxPLFoXBvJfn48qkiF6fnXRikJgIJEYEISioSJBBRWUQLwEcAl7bBANhCgHxH381D13VTTqwvL9wWCosWGt/tc8+VR2p1NWd13md13md1++oRt81WL7mf0Tdd21u7vnze/ee3L1z59a1xt8r3uirf/Xy5UsCcPfOrVu3G5x+tqGpteHymao3++rvv3oFAOYEgFu3b+tNaAoETDNw8czUwdqn74MSAFAPAMAznUoD0g+cFUGzf2kaFAOABBzgmcbpVhMDnAVBo+/b0tL0EgUQekABnmkAAoEzImj2f/sGALgDCgAgUJMIALAHp8xB883v3xnA/Wk5BHgMoANqE1qhfiBwSoLm6+HvFIC0QAMACRQLWrEBqAm1EgD5MAH4pgVAPcAASgr+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"
+    },
+    {
+      "name": "PlayHT",
+      "logo": "data:image/png;base64,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"
+    }
+  ],
+  "story": {
+    "threat": "THE TALENT WAR",
+    "mission": "BUILD QUIETLY. SCALE BRILLIANTLY.",
+    "verb": "OUT-HIRED",
+    "weapon": "BENEFITS THEY CAN'T MATCH"
+  },
+  "vendor": {
+    "name": "Kota",
+    "tagline": "Global benefits. Quietly brilliant.",
+    "accentColor": "#6C5CE7",
+    "ctaUrl": "https://kota.io/demo"
+  }
+};
+const CONFIG = {
+  ...TEMPLATE_CONFIG,
+  ...PROSPECT_CONFIG,
+  person: {...TEMPLATE_CONFIG.person, ...(PROSPECT_CONFIG.person || {})},
+  company: {...TEMPLATE_CONFIG.company, ...(PROSPECT_CONFIG.company || {})},
+  story: {...TEMPLATE_CONFIG.story, ...(PROSPECT_CONFIG.story || {})},
+  deck: {...TEMPLATE_CONFIG.deck, ...(PROSPECT_CONFIG.deck || {})},
+  vendor: {...TEMPLATE_CONFIG.vendor, ...(PROSPECT_CONFIG.vendor || {})},
+  pillars: PROSPECT_CONFIG.pillars || TEMPLATE_CONFIG.pillars
+};
+/* ========================= END OF CONFIG ================================= */
+</script>
+
+<style>
+:root{
+  --accent:#6C5CE7;
+  --term:#00FF41;
+  --bg:#050505;
+  --threat:#ff4d6d;
+  --dim:#8b93a8;
+  --dimmer:#6d7d99;
+}
+*{ box-sizing:border-box; }
+/* Several overlays below set display:flex, which would otherwise beat the UA
+   rule for [hidden] and leave them permanently on screen. */
+[hidden]{ display:none !important; }
+html,body{ margin:0; padding:0; height:100%; overflow:hidden; background:var(--bg); }
+body{
+  font-family:"Press Start 2P", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color:#e8f1ff; -webkit-font-smoothing:none;
+}
+button,input,a{ font-family:inherit; }
+
+/* ---- deck shell ---- */
+#deck{ position:fixed; inset:0; overflow:hidden; }
+#track{
+  position:absolute; inset:0 0 56px 0;
+  display:flex; width:100%;
+  transition:transform .45s cubic-bezier(.22,1,.36,1);
+  will-change:transform;
+}
+.scene{
+  position:relative; flex:0 0 100%; width:100%; height:100%;
+  overflow:hidden;
+}
+@media (prefers-reduced-motion: reduce){ #track{ transition:none; } }
+
+/* ---- shared bits ---- */
+.stars{ position:absolute; inset:0; pointer-events:none; }
+.pill{
+  display:inline-block; border:2px solid var(--accent); color:var(--accent);
+  background:rgba(5,5,5,.8); padding:10px 18px; font-size:10px; letter-spacing:.1em;
+  cursor:pointer; transition:background .15s, color .15s;
+}
+.pill:hover{ background:var(--accent); color:#050505; }
+.ghostbtn{
+  background:none; border:1px solid rgba(232,241,255,.3); color:var(--dim);
+  font-size:8px; letter-spacing:.14em; padding:8px 12px; cursor:pointer;
+}
+.ghostbtn:hover{ color:#fff; border-color:var(--accent); }
+:focus-visible{ outline:2px solid var(--term); outline-offset:3px; }
+
+/* ---- scene 0: CRT terminal ---- */
+#s0{ display:flex; align-items:center; justify-content:center;
+     background:radial-gradient(ellipse at center,#161620 0%,#060608 75%); }
+.crt{
+  width:min(92vw,880px); background:#e9e5da; border-radius:18px; padding:14px 14px 0;
+  box-shadow:0 30px 90px rgba(0,0,0,.7);
+}
+.crt-screen{
+  background:#0a0d0a; border-radius:10px; padding:26px 24px; min-height:min(56vh,420px);
+  box-shadow:inset 0 0 70px rgba(0,255,65,.07), inset 0 0 14px rgba(0,0,0,.9);
+  position:relative; overflow:hidden;
+}
+.crt-screen::after{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:repeating-linear-gradient(180deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px);
+}
+.term{ color:var(--term); font-size:clamp(11px,1.7vw,15px); line-height:2; text-shadow:0 0 8px rgba(0,255,65,.55); }
+.term pre{ margin:0; font-family:inherit; white-space:pre-wrap; }
+#pwrow{ display:flex; align-items:center; }
+#pwrow > span{ flex:0 0 auto; }
+#pw{
+  background:none; border:none; outline:none; color:var(--term); width:100%;
+  font-size:inherit; letter-spacing:.2em; text-shadow:0 0 8px rgba(0,255,65,.6); caret-color:var(--term);
+}
+.cursor{ display:inline-block; width:.7em; height:1em; background:var(--term); vertical-align:-.12em; animation:blink 1s steps(1) infinite; }
+@keyframes blink{ 50%{ opacity:0; } }
+.crt-chin{ display:flex; align-items:center; justify-content:space-between; padding:12px 8px; }
+.crt-brand{ font-size:9px; letter-spacing:.3em; color:#5c5546; }
+.led{ width:8px; height:8px; border-radius:50%; background:var(--term); box-shadow:0 0 8px var(--term); }
+.shake{ animation:shake .4s; }
+@keyframes shake{ 0%,100%{transform:translateX(0)} 20%{transform:translateX(-9px)} 40%{transform:translateX(9px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
+.flash-red{ box-shadow:inset 0 0 90px rgba(255,60,60,.45); }
+.flash-green{ box-shadow:inset 0 0 90px rgba(0,255,65,.3); }
+#denied{ color:#ff5555; text-shadow:0 0 8px rgba(255,0,0,.7); }
+.gline{ opacity:0; animation:fadein .5s forwards; }
+@keyframes fadein{ to{ opacity:1; } }
+#hintline{ color:rgba(0,255,65,.45); font-size:.85em; margin-top:22px; }
+
+/* ---- scene 1: shooter ---- */
+#s1{ background:var(--bg); }
+#game{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+.hud{ position:absolute; z-index:5; pointer-events:none; }
+#hud-kills{ top:18px; left:18px; color:var(--term); font-size:10px; text-shadow:0 0 8px rgba(0,255,65,.5); }
+#hud-title{ top:16px; left:0; right:0; text-align:center; }
+#hud-title h1{ margin:0; font-size:clamp(11px,2vw,18px); color:var(--accent); letter-spacing:.12em; text-shadow:0 0 16px rgba(108,92,231,.7); }
+#hud-title p{ margin:10px 0 0; font-size:clamp(8px,1.2vw,11px); color:var(--dim); letter-spacing:.22em; }
+#hud-keys{ bottom:20px; left:18px; color:var(--dim); font-size:8px; line-height:2.2; }
+.centerbox{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  z-index:6; pointer-events:none;
+}
+.boxcard{
+  background:rgba(5,5,5,.88); border:3px solid var(--accent); padding:26px 30px; text-align:center;
+  box-shadow:0 0 40px rgba(108,92,231,.35);
+}
+.boxcard .big{ font-size:clamp(11px,2vw,18px); color:var(--accent); letter-spacing:.08em; }
+.boxcard .keys{ margin-top:18px; font-size:9px; color:var(--dim); letter-spacing:.1em; line-height:2.4; }
+.boxcard .keys b{ border:1px solid rgba(232,241,255,.4); padding:5px 9px; color:#e8f1ff; font-weight:normal; }
+
+/* ---- interlude ---- */
+#interlude{
+  position:fixed; inset:0; z-index:60; background:var(--bg);
+  display:none; align-items:center; justify-content:center; text-align:center; padding:0 24px;
+}
+#interlude.on{ display:flex; }
+#il1{ font-size:clamp(13px,2.6vw,26px); color:var(--accent); text-shadow:0 0 22px rgba(108,92,231,.7); opacity:0; }
+#il2{ font-size:clamp(12px,2.2vw,22px); color:#fff; margin-top:26px; line-height:1.9; opacity:0; }
+
+/* ---- scenes 2-4: pillars ---- */
+.pillar{ position:absolute; inset:0; display:flex; flex-direction:column; padding:22px 28px 0; }
+.pillar-head{ text-align:center; flex:0 0 auto; }
+.pillar-head h1{ margin:0; font-size:clamp(11px,2vw,19px); color:var(--accent); letter-spacing:.1em; text-shadow:0 0 16px rgba(108,92,231,.6); }
+.pillar-head p{ margin:12px auto 0; max-width:70ch; font-size:clamp(8px,1.15vw,11px); color:var(--dim); line-height:2; }
+.pillar-body{ flex:1 1 auto; display:flex; gap:24px; min-height:0; margin-top:20px; }
+.logs{ width:48%; display:flex; flex-direction:column; justify-content:center; gap:14px; overflow-y:auto; }
+.log{
+  border:2px solid rgba(108,92,231,.4); background:rgba(5,5,5,.8);
+  padding:14px 16px; cursor:pointer; text-align:left; width:100%; display:block;
+  transition:border-color .15s, box-shadow .15s;
+}
+.log:hover{ border-color:var(--accent); }
+.log[aria-expanded="true"]{ border-color:var(--accent); box-shadow:0 0 20px rgba(108,92,231,.35); }
+.log-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+.log-code{ color:var(--accent); font-size:9px; text-shadow:0 0 8px rgba(108,92,231,.5); }
+.log-title{ color:#e8f1ff; font-size:9px; line-height:1.9; margin-left:12px; }
+.log-toggle{ color:var(--accent); font-size:12px; flex:0 0 auto; }
+.log-gist{ color:var(--dim); font-size:9px; line-height:1.9; margin:10px 0 0; }
+.log-points{ list-style:none; margin:0; padding:0; overflow:hidden; height:0; transition:height .25s ease; }
+@media (prefers-reduced-motion: reduce){ .log-points{ transition:none; } }
+.log-points li{ color:#cfd8e8; font-size:9px; line-height:2.1; margin-top:8px; }
+.log-points li span{ color:var(--term); margin-right:8px; }
+.logs-hint{ color:rgba(232,241,255,.35); font-size:8px; letter-spacing:.18em; margin-top:4px; }
+.field{ flex:1 1 auto; position:relative; overflow:hidden; }
+.rock{ position:absolute; top:0; left:0; display:flex; align-items:center; justify-content:center; will-change:transform; }
+.rock svg{ position:absolute; inset:0; width:100%; height:100%; }
+.rock .txt{ position:relative; text-align:center; padding:0 16%; }
+.rock .num{ color:var(--term); text-shadow:0 0 12px rgba(0,255,65,.5); }
+.rock .lab{ color:rgba(0,255,65,.85); line-height:1.5; margin-top:6px; }
+.rock .est{ color:rgba(0,255,65,.5); font-size:7px; margin-top:5px; letter-spacing:.1em; }
+
+/* ---- scene 5: credits + final ---- */
+#s5{ background:var(--bg); }
+#credits{ position:absolute; inset:0; overflow:hidden; }
+#roll{
+  position:absolute; left:0; right:0;
+  display:flex; flex-direction:column; align-items:center;
+  gap:34px; padding:0 24px; will-change:transform;
+}
+.cred{ max-width:46ch; text-align:center; }
+.cred .lbl{ font-size:9px; letter-spacing:.22em; color:var(--dimmer); display:block; margin-bottom:14px; }
+.cred .val{ font-size:clamp(13px,4vw,24px); line-height:1.7; color:#fff; }
+.cred .val.glow{ text-shadow:0 0 14px var(--accent), 0 0 32px var(--accent); }
+.cred ul{ list-style:none; margin:0; padding:0; }
+.cred li{
+  font-size:clamp(10px,3vw,15px); line-height:2.2;
+  color:#6b7690; text-decoration:line-through;
+  text-decoration-color:var(--threat); text-decoration-thickness:3px;
+}
+#final{
+  position:absolute; inset:0; display:none; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center; padding:24px; gap:6px;
+}
+#final.on{ display:flex; }
+#f-kicker{ font-size:9px; letter-spacing:.24em; color:var(--dimmer); margin-bottom:18px; }
+#f-title{ font-size:clamp(14px,4.4vw,30px); line-height:1.9; }
+#f-title .em{ color:#fff; text-shadow:0 0 16px var(--accent),0 0 40px var(--accent); }
+#f-sub{ font-size:10px; color:var(--dim); letter-spacing:.16em; margin:22px 0 28px; }
+#f-cta{
+  display:inline-block; text-decoration:none; border:2px solid var(--accent); color:var(--accent);
+  background:rgba(5,5,5,.8); padding:14px 22px; font-size:10px; letter-spacing:.1em;
+}
+#f-cta:hover{ background:var(--accent); color:#050505; }
+
+/* ---- chrome ---- */
+#nav{
+  position:fixed; left:0; right:0; bottom:0; height:56px; z-index:50;
+  display:flex; align-items:center; justify-content:center; gap:20px;
+  background:rgba(5,5,5,.92); border-top:2px solid rgba(108,92,231,.5);
+}
+#nav button{ background:none; border:none; color:var(--accent); cursor:pointer; font-size:11px; padding:8px; }
+#nav button:disabled{ opacity:.2; cursor:default; }
+#dots{ display:flex; align-items:center; gap:12px; }
+.dot{
+  width:11px; height:11px; padding:0 !important; border:2px solid var(--accent) !important;
+  background:none; cursor:pointer;
+}
+.dot.active{ background:var(--accent) !important; }
+#nav .brand{ position:absolute; right:20px; font-size:8px; color:rgba(108,92,231,.55); letter-spacing:.18em; }
+#skip{ position:fixed; top:16px; right:16px; z-index:55; }
+#touchhint{
+  position:fixed; left:50%; bottom:66px; transform:translateX(-50%); z-index:41;
+  font-size:8px; color:var(--dim); letter-spacing:.14em; pointer-events:none; display:none;
+}
+#scan{
+  position:fixed; inset:0; z-index:70; pointer-events:none;
+  background:repeating-linear-gradient(180deg,rgba(0,0,0,.16) 0 1px,transparent 1px 3px);
+}
+#vig{
+  position:fixed; inset:0; z-index:69; pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.75) 100%);
+}
+
+@media (max-width:820px){
+  .pillar{ padding:16px 16px 0; }
+  .pillar-body{ flex-direction:column; gap:14px; margin-top:14px; }
+  .logs{ width:100%; flex:0 0 auto; justify-content:flex-start; }
+  .field{ flex:1 1 auto; min-height:150px; }
+  #hud-keys{ display:none; }
+}
+</style>
+</head>
+<body>
+
+<div id="deck">
+  <div id="track">
+
+    <!-- 0 · terminal -->
+    <section class="scene" id="s0">
+      <div class="crt" id="crt">
+        <div class="crt-screen" id="crt-screen">
+          <div class="term">
+            <pre id="boot"></pre>
+            <div id="pwrow" hidden><span>&gt;&nbsp;</span><input id="pw" type="text" autocomplete="off" spellcheck="false" aria-label="Password" /></div>
+            <div id="denied" hidden>&gt; ACCESS DENIED — RETRY</div>
+            <div id="granted" hidden></div>
+            <div id="hintline" hidden></div>
+          </div>
+        </div>
+        <div class="crt-chin">
+          <div class="crt-brand" id="crt-brand"></div>
+          <div class="led"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1 · shooter -->
+    <section class="scene" id="s1">
+      <canvas id="game"></canvas>
+      <div class="hud" id="hud-kills"></div>
+      <div class="hud" id="hud-title"><h1></h1><p></p></div>
+      <div class="hud" id="hud-keys">[W A S D] THRUST / ROTATE<br />[SPACE] FIRE</div>
+      <div class="centerbox" id="intro">
+        <div class="boxcard">
+          <div class="big" id="intro-big"></div>
+          <div class="keys" id="intro-keys"></div>
+        </div>
+      </div>
+      <div class="centerbox" id="cleared" hidden>
+        <div class="boxcard"><div class="big">FIELD CLEARED →</div></div>
+      </div>
+    </section>
+
+    <!-- 2,3,4 · pillars (built from CONFIG) -->
+    <section class="scene" id="s2"></section>
+    <section class="scene" id="s3"></section>
+    <section class="scene" id="s4"></section>
+
+    <!-- 5 · credits + final card -->
+    <section class="scene" id="s5">
+      <div id="credits"><div id="roll"></div></div>
+      <div id="final">
+        <div id="f-kicker">EFFECTIVE IMMEDIATELY</div>
+        <div id="f-title"></div>
+        <div id="f-sub"></div>
+        <a id="f-cta" href="#" target="_blank" rel="noopener"></a>
+        <button class="ghostbtn" id="f-replay" style="margin-top:22px">PLAY AGAIN</button>
+      </div>
+    </section>
+
+  </div>
+
+  <div id="interlude"><div><div id="il1"></div><div id="il2"></div></div></div>
+
+  <button class="ghostbtn" id="skip">SKIP TO THE ENDING →</button>
+  <div id="touchhint">DRAG TO STEER — YOU FIRE AUTOMATICALLY</div>
+
+  <div id="nav">
+    <button id="prev" aria-label="Previous">◀</button>
+    <div id="dots"></div>
+    <button id="next" aria-label="Next">▶</button>
+    <div class="brand" id="brand"></div>
+  </div>
+</div>
+
+<div id="vig"></div>
+<div id="scan"></div>
+
+<script>
+/* ==========================================================================
+   THE ENGINE — fixed and dumb. Reads CONFIG, never contains a prospect value.
+   ========================================================================== */
+"use strict";
+
+const PERSON  = CONFIG.person;
+const COMPANY = CONFIG.company;
+const ENEMIES = CONFIG.enemies || [];
+const STORY   = CONFIG.story   || {};
+const VENDOR  = CONFIG.vendor  || {};
+const DECK    = CONFIG.deck    || {};
+const PILLARS = CONFIG.pillars || [];
+
+const ACCENT = VENDOR.accentColor || "#6C5CE7";
+const TERM   = "#00FF41";
+const TOTAL  = 3 + PILLARS.length;              // terminal + shooter + pillars + ending
+const LAST   = TOTAL - 1;
+const KILL_TARGET = Math.max(1, Math.min(DECK.killTarget || 2, ENEMIES.length || 1));
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const TOUCH   = matchMedia("(hover: none), (pointer: coarse)").matches;
+
+document.documentElement.style.setProperty("--accent", ACCENT);
+
+const $  = id => document.getElementById(id);
+const up = s => String(s == null ? "" : s).toUpperCase();
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c =>
+  ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+
+/* -------------------------------------------------------------- 1. SOUND */
+let actx = null;
+function ac(){
+  try{
+    if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+    if (actx.state === "suspended") actx.resume().catch(() => {});
+    return actx;
+  } catch(e){ return null; }
+}
+function tone(freq, dur, type, vol, slideTo, when){
+  const c = ac(); if (!c) return;
+  try{
+    const t = c.currentTime + (when || 0);
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = type || "square";
+    o.frequency.setValueAtTime(freq, t);
+    if (slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, t + dur);
+    g.gain.setValueAtTime(vol == null ? .06 : vol, t);
+    g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    o.connect(g).connect(c.destination);
+    o.start(t); o.stop(t + dur + .05);
+  } catch(e){}
+}
+function noise(dur, vol, cut){
+  const c = ac(); if (!c) return;
+  try{
+    const t = c.currentTime;
+    const buf = c.createBuffer(1, Math.max(1, Math.floor(c.sampleRate * dur)), c.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    const src = c.createBufferSource(); src.buffer = buf;
+    const f = c.createBiquadFilter(); f.type = "lowpass";
+    f.frequency.setValueAtTime(cut, t);
+    f.frequency.exponentialRampToValueAtTime(60, t + dur);
+    const g = c.createGain();
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    src.connect(f).connect(g).connect(c.destination);
+    src.start(t);
+  } catch(e){}
+}
+const sfx = {
+  unlock:    () => ac(),
+  key:       () => tone(700 + Math.random() * 300, .03, "square", .02),
+  laser:     () => tone(880, .12, "square", .045, 160),
+  explosion: big => noise(big ? .5 : .3, big ? .26 : .15, big ? 1000 : 700),
+  denied:    () => { tone(160, .18, "sawtooth", .08); tone(110, .3, "sawtooth", .08, null, .16); },
+  granted:   () => [523,659,784,1046].forEach((f,i) => tone(f, .14, "square", .055, null, i * .09)),
+  cleared:   () => [392,523,659,784,1046].forEach((f,i) => tone(f, .16, "square", .055, null, i * .08))
+};
+
+/* ---------------------------------------------------- 2. STATIC COPY PAINT */
+$("crt-brand").textContent = up(VENDOR.name) + " SYSTEMS";
+$("brand").textContent     = up(VENDOR.name) + " × " + up(COMPANY.name);
+$("hud-title").querySelector("h1").textContent = DECK.gameTitle || "THE TALENT WARS";
+$("hud-title").querySelector("p").textContent  = DECK.gameSub || "";
+$("hud-keys").innerHTML = TOUCH ? "DRAG TO STEER<br />AUTO-FIRE" : "[W A S D] THRUST / ROTATE<br />[SPACE] FIRE";
+$("intro-big").textContent = up(STORY.mission || "DEFEND YOUR PEOPLE.");
+$("intro-keys").innerHTML = TOUCH
+  ? "<b>DRAG</b> TO STEER &nbsp; · &nbsp; AUTO-FIRE"
+  : "<b>W</b><b>A</b><b>S</b><b>D</b> MOVE &nbsp;&nbsp; <b>SPACE</b> SHOOT";
+
+$("f-title").innerHTML =
+  esc(PERSON.name) + "<br /><span class=\"em\">" + esc(PERSON.promotionTitle) + "</span>" +
+  "<br /><span style=\"font-size:.5em;color:#9fb0cc\">of " + esc(COMPANY.name) + "</span>";
+$("f-sub").textContent = up(VENDOR.tagline);
+const cta = $("f-cta");
+cta.href = VENDOR.ctaUrl || "#";
+cta.textContent = "SEE HOW " + up(VENDOR.name) + " DOES IT →";
+
+/* ------------------------------------------------------- 3. SCENE ROUTER */
+let scene = 0;
+let unlocked = false;
+let interludeTimer = 0;
+
+const dotsWrap = $("dots");
+for (let i = 0; i < TOTAL; i++){
+  const b = document.createElement("button");
+  b.className = "dot"; b.setAttribute("aria-label", "Go to scene " + (i + 1));
+  b.onclick = () => { sfx.unlock(); go(i); };
+  dotsWrap.appendChild(b);
+}
+const dots = Array.from(dotsWrap.children);
+
+function go(i){
+  const next = clamp(i, 0, LAST);
+  if (next === scene) return;
+  if (!unlocked && next !== 0) return;
+  leave(scene);
+  scene = next;
+  $("track").style.transform = "translateX(" + (-scene * 100) + "%)";
+  enter(scene);
+  paintChrome();
+}
+
+function paintChrome(){
+  dots.forEach((d, i) => {
+    d.classList.toggle("active", i === scene);
+    d.disabled = !unlocked;
+  });
+  $("prev").disabled = !unlocked || scene === 0;
+  $("next").disabled = !unlocked || scene === LAST;
+  $("skip").hidden = scene === LAST;
+  $("skip").textContent = scene === LAST - 0 ? "SKIP" : "SKIP TO THE ENDING →";
+  $("touchhint").style.display = (scene === 1 && TOUCH) ? "block" : "none";
+}
+
+function leave(i){
+  if (i === 1) stopGame();
+  if (i === LAST) stopCredits();
+  const p = i - 2;
+  if (p >= 0 && p < PILLARS.length) stopField(p);
+}
+function enter(i){
+  if (i === 1) startGame();
+  if (i === LAST) startEnding();
+  const p = i - 2;
+  if (p >= 0 && p < PILLARS.length) startField(p);
+}
+
+$("prev").onclick = () => { sfx.unlock(); go(scene - 1); };
+$("next").onclick = () => { sfx.unlock(); go(scene + 1); };
+$("skip").onclick = () => { sfx.unlock(); unlocked = true; clearTimeout(interludeTimer); hideInterlude(); go(LAST); };
+
+addEventListener("keydown", e => {
+  if (!unlocked) return;
+  if (scene <= 1) return;                       // 0 types, 1 flies the ship
+  if (e.target && e.target.tagName === "INPUT") return;
+  const k = e.key.toLowerCase();
+  if (k === "arrowright" || k === "d") go(scene + 1);
+  if (k === "arrowleft"  || k === "a") go(scene - 1);
+});
+
+/* ---------------------------------------------------- 4. SCENE 0 — TERMINAL */
+const bootEl = $("boot");
+const BOOT = (DECK.bootLines || []).join("\n");
+let bootI = 0, hintTimer = 0, termStatus = "boot";
+
+const bootIv = setInterval(() => {
+  bootI++;
+  bootEl.textContent = BOOT.slice(0, bootI);
+  if (bootI % 3 === 0) sfx.key();
+  if (bootI >= BOOT.length){
+    clearInterval(bootIv);
+    termStatus = "idle";
+    $("pwrow").hidden = false;
+    $("pw").focus();
+    armHint();
+  }
+}, REDUCED ? 4 : 32);
+
+function armHint(){
+  clearTimeout(hintTimer);
+  $("hintline").hidden = true;
+  if (!DECK.hint) return;
+  hintTimer = setTimeout(() => {
+    if (termStatus !== "idle") return;
+    $("hintline").textContent = DECK.hint;
+    $("hintline").hidden = false;
+  }, 8000);
+}
+
+$("s0").addEventListener("click", () => {
+  sfx.unlock();
+  if (termStatus === "idle") $("pw").focus();
+});
+$("pw").addEventListener("input", () => { sfx.key(); armHint(); });
+$("pw").addEventListener("keydown", e => {
+  e.stopPropagation();
+  if (e.key === "Enter") submitPw();
+});
+
+function submitPw(){
+  if (termStatus !== "idle") return;
+  const want = String(DECK.password == null ? "" : DECK.password).toLowerCase();
+  if ($("pw").value.trim().toLowerCase() === want){
+    termStatus = "granted";
+    clearTimeout(hintTimer);
+    $("hintline").hidden = true;
+    sfx.granted();
+    $("pwrow").hidden = true;
+    $("crt-screen").classList.add("flash-green");
+    const lines = DECK.granted || [];
+    $("granted").hidden = false;
+    $("granted").innerHTML = lines.map((l, i) =>
+      "<div class=\"gline\" style=\"animation-delay:" + (i * .55) + "s\">" + esc(l) + "</div>").join("");
+    setTimeout(() => {
+      const b = document.createElement("button");
+      b.className = "pill gline"; b.textContent = "[ START GAME ]"; b.style.marginTop = "22px";
+      b.onclick = () => { unlocked = true; paintChrome(); go(1); };
+      $("granted").appendChild(b);
+      b.focus();
+    }, REDUCED ? 300 : 1800);
+  } else {
+    termStatus = "denied";
+    sfx.denied();
+    $("pw").value = "";
+    $("denied").hidden = false;
+    $("crt").classList.add("shake");
+    $("crt-screen").classList.add("flash-red");
+    setTimeout(() => {
+      $("denied").hidden = true;
+      $("crt").classList.remove("shake");
+      $("crt-screen").classList.remove("flash-red");
+      termStatus = "idle";
+      $("pw").focus();
+      armHint();
+    }, 700);
+  }
+}
+
+/* ------------------------------------------------------- 5. SCENE 1 — GAME */
+const canvas = $("game");
+const gctx = canvas.getContext("2d");
+const LOGOS = ENEMIES.map(e => {
+  if (!e.logo || /^__LOGO_/.test(e.logo)) return null;
+  const img = new Image();
+  img.onerror = () => { img._bad = true; };
+  img.src = e.logo;
+  return img;
+});
+
+let G = null, graf = 0, gameStarted = false, introTimer = 0, clearTimer = 0;
+
+function makeVerts(r){
+  const n = 10 + Math.floor(Math.random() * 4);
+  const v = [];
+  for (let i = 0; i < n; i++){
+    const a = (i / n) * Math.PI * 2;
+    const rr = r * (.75 + Math.random() * .35);
+    v.push([Math.cos(a) * rr, Math.sin(a) * rr]);
+  }
+  return v;
+}
+function spawnRock(w, h, idx, gen, x, y){
+  const r = gen === 0 ? 58 : gen === 1 ? 30 : 16;
+  if (x == null){
+    let guard = 0;
+    do {
+      x = r + Math.random() * Math.max(1, w - r * 2);
+      y = r + Math.random() * Math.max(1, h - r * 2);
+      guard++;
+    } while (Math.hypot(x - w / 2, y - h / 2) < 260 && guard < 60);
+  }
+  const sp = .4 + Math.random() * .7 + gen * .3;
+  const dir = Math.random() * Math.PI * 2;
+  return {
+    x, y, r, gen, idx,
+    vx: Math.cos(dir) * sp, vy: Math.sin(dir) * sp,
+    rot: Math.random() * Math.PI * 2, rotSpeed: (Math.random() - .5) * .02,
+    verts: makeVerts(r)
+  };
+}
+
+function sizeCanvas(){
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const w = canvas.clientWidth || innerWidth;
+  const h = canvas.clientHeight || innerHeight;
+  canvas.width = Math.max(1, Math.round(w * dpr));
+  canvas.height = Math.max(1, Math.round(h * dpr));
+  gctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  if (G){ G.w = w; G.h = h; }
+}
+
+function startGame(){
+  if (gameStarted) return;
+  gameStarted = true;
+  $("cleared").hidden = true;
+  $("intro").style.display = "flex";
+
+  const w = canvas.clientWidth || innerWidth;
+  const h = canvas.clientHeight || innerHeight;
+  G = {
+    w, h,
+    ship: { x: w / 2, y: h / 2, a: -Math.PI / 2, vx: 0, vy: 0, alive: true, respawnAt: 0, inv: 120 },
+    bullets: [], particles: [], keys: {}, lastShot: 0,
+    kills: 0, cleared: false, frame: 0,
+    touch: null, pointerDown: false, introUp: true,
+    stars: Array.from({ length: 120 }, () => ({
+      x: Math.random() * w, y: Math.random() * h,
+      s: Math.random() * 1.8 + .4, tw: Math.random() * Math.PI * 2
+    })),
+    rocks: ENEMIES.map((_, i) => spawnRock(w, h, i, 0))
+  };
+  sizeCanvas();
+  addEventListener("resize", sizeCanvas);
+  addEventListener("keydown", gKeyDown);
+  addEventListener("keyup", gKeyUp);
+  canvas.addEventListener("pointerdown", gPointer);
+  canvas.addEventListener("pointermove", gPointer);
+  canvas.addEventListener("pointerup", gPointerEnd);
+  canvas.addEventListener("pointercancel", gPointerEnd);
+  clearTimeout(introTimer);
+  introTimer = setTimeout(hideIntro, 4500);
+  graf = requestAnimationFrame(gloop);
+}
+
+function stopGame(){
+  gameStarted = false;
+  cancelAnimationFrame(graf); graf = 0;
+  clearTimeout(introTimer); clearTimeout(clearTimer);
+  removeEventListener("resize", sizeCanvas);
+  removeEventListener("keydown", gKeyDown);
+  removeEventListener("keyup", gKeyUp);
+  canvas.removeEventListener("pointerdown", gPointer);
+  canvas.removeEventListener("pointermove", gPointer);
+  canvas.removeEventListener("pointerup", gPointerEnd);
+  canvas.removeEventListener("pointercancel", gPointerEnd);
+}
+
+function hideIntro(){
+  $("intro").style.display = "none";
+  if (G) G.introUp = false;
+}
+
+const GKEYS = ["w","a","s","d"," ","arrowup","arrowdown","arrowleft","arrowright"];
+function gKeyDown(e){
+  if (scene !== 1 || !G) return;
+  const k = e.key.toLowerCase();
+  sfx.unlock(); hideIntro();
+  if (GKEYS.indexOf(k) >= 0){ e.preventDefault(); G.keys[k] = true; }
+}
+function gKeyUp(e){ if (G) G.keys[e.key.toLowerCase()] = false; }
+// Steering only ever follows an ACTIVE drag. A bare pointermove (a mouse just
+// crossing the canvas, button up) must not fly the ship or trigger auto-fire —
+// otherwise the deck plays itself the moment the cursor drifts over it.
+function gPointer(e){
+  if (!G) return;
+  if (e.type === "pointermove" && !G.pointerDown) return;
+  if (e.type === "pointerdown"){
+    G.pointerDown = true;
+    try { canvas.setPointerCapture(e.pointerId); } catch(err){}
+  }
+  sfx.unlock(); hideIntro();
+  const r = canvas.getBoundingClientRect();
+  G.touch = { x: e.clientX - r.left, y: e.clientY - r.top };
+}
+function gPointerEnd(){ if (G){ G.pointerDown = false; G.touch = null; } }
+
+function burst(x, y, color, count, speed){
+  for (let i = 0; i < count; i++){
+    const a = Math.random() * Math.PI * 2;
+    const sp = Math.random() * speed + .5;
+    G.particles.push({
+      x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp,
+      life: 1, decay: .015 + Math.random() * .02,
+      size: 2 + Math.random() * 4, color
+    });
+  }
+}
+
+function shoot(){
+  const now = performance.now();
+  if (now - G.lastShot < 220 || !G.ship.alive) return;
+  G.lastShot = now;
+  sfx.laser();
+  const s = G.ship;
+  G.bullets.push({
+    x: s.x + Math.cos(s.a) * 18, y: s.y + Math.sin(s.a) * 18,
+    vx: Math.cos(s.a) * 8 + s.vx, vy: Math.sin(s.a) * 8 + s.vy,
+    life: 70
+  });
+}
+
+function destroyRock(j){
+  const a = G.rocks[j];
+  G.rocks.splice(j, 1);
+  burst(a.x, a.y, ACCENT, a.gen === 0 ? 34 : 18, a.gen === 0 ? 4.2 : 3);
+  burst(a.x, a.y, "#FAFAFA", 12, 2.5);
+  sfx.explosion(a.gen === 0);
+  if (a.gen < 2){
+    for (let i = 0; i < 2; i++){
+      G.rocks.push(spawnRock(G.w, G.h, -1, a.gen + 1,
+        a.x + (Math.random() - .5) * 20, a.y + (Math.random() - .5) * 20));
+    }
+  }
+  if (a.idx >= 0 && !G.cleared){
+    G.kills++;
+    if (G.kills >= KILL_TARGET){
+      G.cleared = true;
+      sfx.cleared();
+      hideIntro();
+      $("cleared").hidden = false;
+      clearTimeout(clearTimer);
+      clearTimer = setTimeout(showInterlude, 1800);
+    }
+  }
+}
+
+function resetField(){
+  const labels = G.rocks.filter(r => r.idx >= 0).map(r => r.idx);
+  G.ship = { x: G.w / 2, y: G.h / 2, a: -Math.PI / 2, vx: 0, vy: 0, alive: true, respawnAt: 0, inv: 120 };
+  G.rocks = labels.map(i => spawnRock(G.w, G.h, i, 0));
+  G.bullets = [];
+}
+
+function gloop(){
+  if (scene !== 1 || !G){ graf = 0; return; }
+  graf = requestAnimationFrame(gloop);
+  G.frame++;
+  const now = performance.now();
+  const s = G.ship, w = G.w, h = G.h;
+
+  if (!s.alive && now > s.respawnAt) resetField();
+
+  if (s.alive){
+    if (G.touch){
+      // touch: steer toward the finger, gentle thrust, auto-fire
+      const want = Math.atan2(G.touch.y - s.y, G.touch.x - s.x);
+      let d = want - s.a;
+      while (d >  Math.PI) d -= Math.PI * 2;
+      while (d < -Math.PI) d += Math.PI * 2;
+      s.a += clamp(d, -.09, .09);
+      if (Math.hypot(G.touch.x - s.x, G.touch.y - s.y) > 40){
+        s.vx += Math.cos(s.a) * .09; s.vy += Math.sin(s.a) * .09;
+      }
+      if (!G.cleared) shoot();
+    }
+    if (G.keys["a"] || G.keys["arrowleft"])  s.a -= .065;
+    if (G.keys["d"] || G.keys["arrowright"]) s.a += .065;
+    if (G.keys["w"] || G.keys["arrowup"]){ s.vx += Math.cos(s.a) * .09; s.vy += Math.sin(s.a) * .09; }
+    if (G.keys["s"] || G.keys["arrowdown"]){ s.vx *= .96; s.vy *= .96; }
+    if (G.keys[" "]) shoot();
+    s.vx *= .992; s.vy *= .992;
+    s.x += s.vx; s.y += s.vy;
+    if (s.x < -20) s.x = w + 20; if (s.x > w + 20) s.x = -20;
+    if (s.y < -20) s.y = h + 20; if (s.y > h + 20) s.y = -20;
+    if (s.inv > 0) s.inv--;
+  }
+
+  for (const a of G.rocks){
+    a.x += a.vx; a.y += a.vy; a.rot += a.rotSpeed;
+    if (a.x < -a.r - 60) a.x = w + a.r; if (a.x > w + a.r + 60) a.x = -a.r;
+    if (a.y < -a.r - 60) a.y = h + a.r; if (a.y > h + a.r + 60) a.y = -a.r;
+  }
+
+  for (let i = G.bullets.length - 1; i >= 0; i--){
+    const b = G.bullets[i];
+    b.x += b.vx; b.y += b.vy; b.life--;
+    if (b.life <= 0){ G.bullets.splice(i, 1); continue; }
+    for (let j = G.rocks.length - 1; j >= 0; j--){
+      const a = G.rocks[j];
+      if ((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y) < a.r * a.r){
+        G.bullets.splice(i, 1);
+        destroyRock(j);
+        break;
+      }
+    }
+  }
+
+  // Nothing may kill the player while the controls overlay is still up — the
+  // ship sits still at spawn, and a drifting rival would otherwise pick it off
+  // before the reader has finished learning which keys to press.
+  if (s.alive && s.inv <= 0 && !G.cleared && !G.introUp){
+    for (const a of G.rocks){
+      if ((s.x - a.x) * (s.x - a.x) + (s.y - a.y) * (s.y - a.y) < (a.r + 12) * (a.r + 12)){
+        s.alive = false;
+        s.respawnAt = now + 1400;
+        burst(s.x, s.y, "#FF4444", 40, 5);
+        burst(s.x, s.y, ACCENT, 24, 3.6);
+        sfx.explosion(true);
+        break;
+      }
+    }
+  }
+
+  for (let i = G.particles.length - 1; i >= 0; i--){
+    const p = G.particles[i];
+    p.x += p.vx; p.y += p.vy; p.life -= p.decay;
+    if (p.life <= 0) G.particles.splice(i, 1);
+  }
+
+  /* ---- draw ---- */
+  const c = gctx;
+  c.clearRect(0, 0, w, h);
+
+  for (const st of G.stars){
+    c.globalAlpha = .4 + .5 * Math.abs(Math.sin(st.tw + G.frame * .01));
+    c.fillStyle = "#FAFAFA";
+    c.fillRect(st.x, st.y, st.s, st.s);
+  }
+  c.globalAlpha = 1;
+
+  for (const a of G.rocks){
+    c.save();
+    c.translate(a.x, a.y); c.rotate(a.rot);
+    c.strokeStyle = a.idx >= 0 ? ACCENT : "#FAFAFA";
+    c.lineWidth = 2;
+    c.beginPath();
+    a.verts.forEach((v, i) => i === 0 ? c.moveTo(v[0], v[1]) : c.lineTo(v[0], v[1]));
+    c.closePath(); c.stroke();
+    c.restore();
+
+    if (a.idx >= 0){
+      const img = LOGOS[a.idx];
+      const name = (ENEMIES[a.idx] && ENEMIES[a.idx].name) || "";
+      let ty = a.y + 4;
+      if (img && img.complete && img.naturalWidth && !img._bad){
+        const size = a.r * 0.9;
+        try{ c.drawImage(img, a.x - size / 2, a.y - size / 2 - 6, size, size); } catch(e){}
+        ty = a.y + a.r * .62;
+      }
+      c.fillStyle = "#FAFAFA";
+      c.font = "10px 'Press Start 2P', monospace";
+      c.textAlign = "center";
+      c.fillText(name, a.x, ty);
+    }
+  }
+
+  c.fillStyle = TERM;
+  for (const b of G.bullets) c.fillRect(b.x - 2, b.y - 2, 4, 4);
+
+  if (s.alive && (s.inv <= 0 || G.frame % 10 < 6)){
+    c.save();
+    c.translate(s.x, s.y); c.rotate(s.a + Math.PI / 2);
+    c.strokeStyle = "#FAFAFA"; c.lineWidth = 2;
+    c.beginPath();
+    c.moveTo(0, -16); c.lineTo(11, 12); c.lineTo(0, 6); c.lineTo(-11, 12);
+    c.closePath(); c.stroke();
+    c.fillStyle = ACCENT;
+    c.beginPath(); c.moveTo(0, -16); c.lineTo(5, 0); c.lineTo(-5, 0); c.closePath(); c.fill();
+    if ((G.keys["w"] || G.keys["arrowup"] || G.touch) && G.frame % 4 < 2){
+      c.strokeStyle = ACCENT;
+      c.beginPath();
+      c.moveTo(-4, 12); c.lineTo(0, 20 + Math.random() * 6); c.lineTo(4, 12);
+      c.stroke();
+    }
+    c.restore();
+    c.fillStyle = ACCENT;
+    c.font = "8px 'Press Start 2P', monospace";
+    c.textAlign = "center";
+    c.fillText(up(COMPANY.name), s.x, s.y + 32);
+  }
+
+  for (const p of G.particles){
+    c.globalAlpha = Math.max(0, p.life);
+    c.fillStyle = p.color;
+    c.fillRect(p.x, p.y, p.size, p.size);
+  }
+  c.globalAlpha = 1;
+
+  $("hud-kills").textContent = "TARGETS DOWN: " + Math.min(G.kills, KILL_TARGET) + "/" + KILL_TARGET;
+}
+
+/* ------------------------------------------------------- 6. THE INTERLUDE */
+function showInterlude(){
+  const il = $("interlude");
+  il.classList.add("on");
+  const a = $("il1"), b = $("il2");
+  a.textContent = (DECK.interlude && DECK.interlude.beat1) || "";
+  b.textContent = (DECK.interlude && DECK.interlude.beat2) || "";
+  a.style.animation = "none"; b.style.animation = "none";
+  void a.offsetWidth;
+  a.style.animation = "fadein .5s .35s forwards";
+  b.style.animation = "fadein .6s 1.1s forwards";
+  clearTimeout(interludeTimer);
+  interludeTimer = setTimeout(() => { hideInterlude(); go(2); }, REDUCED ? 1200 : 3600);
+}
+function hideInterlude(){
+  clearTimeout(interludeTimer);
+  $("interlude").classList.remove("on");
+  $("il1").style.opacity = 0; $("il2").style.opacity = 0;
+}
+$("interlude").addEventListener("click", () => { hideInterlude(); go(2); });
+
+/* ------------------------------------------------------ 7. PILLAR SLIDES */
+const SHAPES = [
+  "100,8 148,22 186,66 192,118 162,176 104,194 44,176 12,120 16,62 52,18",
+  "96,10 156,28 190,80 180,134 150,182 92,192 38,168 8,110 22,52 58,20",
+  "104,6 160,30 194,84 186,140 144,186 86,194 34,164 6,104 18,48 60,14",
+  "98,12 152,24 188,72 194,126 156,180 96,190 40,172 10,116 14,58 48,22",
+  "102,8 158,26 192,76 184,132 148,184 90,196 36,170 8,108 20,50 56,16"
+];
+const fields = [];     // per-pillar physics state
+
+PILLARS.forEach((p, pi) => {
+  const host = $("s" + (pi + 2));
+  if (!host) return;
+
+  const wrap = document.createElement("div");
+  wrap.className = "pillar";
+
+  const head = document.createElement("div");
+  head.className = "pillar-head";
+  head.innerHTML = "<h1>" + esc(p.num ? p.num + " · " + p.title : p.title) + "</h1>" +
+                   (p.sub ? "<p>" + esc(p.sub) + "</p>" : "");
+  wrap.appendChild(head);
+
+  const body = document.createElement("div");
+  body.className = "pillar-body";
+
+  const logs = document.createElement("div");
+  logs.className = "logs";
+  (p.items || []).forEach(it => {
+    const btn = document.createElement("button");
+    btn.className = "log";
+    btn.type = "button";
+    btn.setAttribute("aria-expanded", "false");
+    btn.innerHTML =
+      "<span class=\"log-top\"><span><span class=\"log-code\">" + esc(it.code) + "</span>" +
+      "<span class=\"log-title\">" + esc(it.title) + "</span></span>" +
+      "<span class=\"log-toggle\">+</span></span>" +
+      "<p class=\"log-gist\">" + esc(it.gist) + "</p>" +
+      "<ul class=\"log-points\">" +
+      (it.points || []).map(pt => "<li><span>▸</span>" + esc(pt) + "</li>").join("") +
+      "</ul>";
+    btn.onclick = () => {
+      const open = btn.getAttribute("aria-expanded") === "true";
+      logs.querySelectorAll(".log").forEach(o => {
+        o.setAttribute("aria-expanded", "false");
+        o.querySelector(".log-toggle").textContent = "+";
+        o.querySelector(".log-points").style.height = "0px";
+      });
+      if (!open){
+        btn.setAttribute("aria-expanded", "true");
+        btn.querySelector(".log-toggle").textContent = "−";
+        const ul = btn.querySelector(".log-points");
+        ul.style.height = ul.scrollHeight + "px";
+      }
+      sfx.key();
+    };
+    logs.appendChild(btn);
+  });
+  const hint = document.createElement("div");
+  hint.className = "logs-hint";
+  hint.textContent = "CLICK A MISSION LOG TO EXPAND";
+  logs.appendChild(hint);
+  body.appendChild(logs);
+
+  const field = document.createElement("div");
+  field.className = "field";
+  const nodes = (p.stats || []).map((s, i) => {
+    const size = clamp(112 + String(s.label || "").length * 3.5, 130, 240);
+    const el = document.createElement("div");
+    el.className = "rock";
+    el.style.width = el.style.height = size + "px";
+    el.innerHTML =
+      "<svg viewBox=\"0 0 200 200\" aria-hidden=\"true\"><polygon points=\"" +
+      SHAPES[i % SHAPES.length] + "\" fill=\"rgba(5,5,5,.6)\" stroke=\"" + ACCENT + "\" stroke-width=\"2.5\" /></svg>" +
+      "<div class=\"txt\">" +
+      "<div class=\"num\" style=\"font-size:" + Math.round(size * .1) + "px\"></div>" +
+      "<div class=\"lab\" style=\"font-size:" + Math.round(size * .062) + "px\">" + esc(s.label) + "</div>" +
+      (s.est ? "<div class=\"est\">ILLUSTRATIVE</div>" : "") +
+      "</div>";
+    field.appendChild(el);
+    return { el, size, stat: s };
+  });
+  body.appendChild(field);
+
+  wrap.appendChild(body);
+  host.appendChild(wrap);
+
+  fields.push({ field, nodes, raf: 0, bodies: null, counted: false });
+});
+
+function layoutField(f){
+  const w = f.field.clientWidth || 400;
+  const h = f.field.clientHeight || 300;
+  f.bodies = f.nodes.map(n => {
+    const size = Math.min(n.size, Math.max(70, Math.min(w, h) * .6));
+    n.el.style.width = n.el.style.height = size + "px";
+    let x = 0, y = 0, tries = 0;
+    do {
+      x = Math.random() * Math.max(1, w - size);
+      y = Math.random() * Math.max(1, h - size);
+      tries++;
+    } while (tries < 60 && f.bodies && false);
+    const ang = Math.random() * Math.PI * 2;
+    const sp = .25 + Math.random() * .4;
+    return { x, y, size, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp, rot: Math.random() * 360, vr: (Math.random() - .5) * .25, el: n.el };
+  });
+  // nudge apart any that spawned on top of each other
+  for (let pass = 0; pass < 40; pass++){
+    let moved = false;
+    for (let i = 0; i < f.bodies.length; i++){
+      for (let j = i + 1; j < f.bodies.length; j++){
+        const a = f.bodies[i], b = f.bodies[j];
+        const dx = (b.x + b.size / 2) - (a.x + a.size / 2);
+        const dy = (b.y + b.size / 2) - (a.y + a.size / 2);
+        const d = Math.hypot(dx, dy) || .001;
+        const min = (a.size + b.size) / 2 * .92;
+        if (d < min){
+          const nx = dx / d, ny = dy / d, ov = (min - d) / 2;
+          a.x -= nx * ov; a.y -= ny * ov; b.x += nx * ov; b.y += ny * ov;
+          moved = true;
+        }
+      }
+    }
+    if (!moved) break;
+  }
+}
+
+function startField(pi){
+  const f = fields[pi];
+  if (!f || f.raf) return;
+  if (!f.bodies) layoutField(f);
+  if (!f.counted){ f.counted = true; runCountUp(f); }
+  if (REDUCED){ drawField(f); return; }
+  const step = () => {
+    f.raf = requestAnimationFrame(step);
+    const w = f.field.clientWidth, h = f.field.clientHeight;
+    const B = f.bodies;
+    for (const a of B){ a.x += a.vx; a.y += a.vy; a.rot += a.vr; }
+    for (let i = 0; i < B.length; i++){
+      for (let j = i + 1; j < B.length; j++){
+        const a = B[i], b = B[j];
+        const dx = (b.x + b.size / 2) - (a.x + a.size / 2);
+        const dy = (b.y + b.size / 2) - (a.y + a.size / 2);
+        const d = Math.hypot(dx, dy) || .001;
+        const min = (a.size + b.size) / 2 * .92;
+        if (d < min){
+          const nx = dx / d, ny = dy / d, ov = (min - d) / 2;
+          a.x -= nx * ov; a.y -= ny * ov; b.x += nx * ov; b.y += ny * ov;
+          const rel = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
+          if (rel < 0){ a.vx += rel * nx; a.vy += rel * ny; b.vx -= rel * nx; b.vy -= rel * ny; }
+        }
+      }
+    }
+    for (const a of B){
+      if (a.x <= 0){ a.x = 0; a.vx = Math.abs(a.vx); }
+      if (a.x >= w - a.size){ a.x = Math.max(0, w - a.size); a.vx = -Math.abs(a.vx); }
+      if (a.y <= 0){ a.y = 0; a.vy = Math.abs(a.vy); }
+      if (a.y >= h - a.size){ a.y = Math.max(0, h - a.size); a.vy = -Math.abs(a.vy); }
+    }
+    drawField(f);
+  };
+  f.raf = requestAnimationFrame(step);
+}
+function drawField(f){
+  for (const a of f.bodies){
+    a.el.style.transform = "translate(" + a.x + "px," + a.y + "px)";
+    a.el.firstChild.style.transform = "rotate(" + a.rot + "deg)";
+  }
+}
+function stopField(pi){
+  const f = fields[pi];
+  if (!f) return;
+  cancelAnimationFrame(f.raf); f.raf = 0;
+}
+
+function runCountUp(f){
+  f.nodes.forEach(n => {
+    const numEl = n.el.querySelector(".num");
+    const s = n.stat;
+    if (s.text != null || typeof s.value !== "number"){
+      numEl.textContent = s.text != null ? s.text : String(s.value == null ? "" : s.value) + (s.suffix || "");
+      return;
+    }
+    const target = s.value, suffix = s.suffix || "", prefix = s.prefix || "";
+    if (REDUCED){ numEl.textContent = prefix + target + suffix; return; }
+    const dur = 1100, t0 = performance.now();
+    const tick = now => {
+      const k = clamp((now - t0) / dur, 0, 1);
+      const eased = 1 - Math.pow(1 - k, 3);
+      numEl.textContent = prefix + Math.round(target * eased) + suffix;
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+}
+
+addEventListener("resize", () => {
+  fields.forEach((f, i) => {
+    if (!f.bodies) return;
+    layoutField(f);
+    drawField(f);
+  });
+});
+
+/* ------------------------------------------- 8. SCENE 5 — CREDITS + FINAL */
+let rollRAF = 0;
+function startEnding(){
+  $("final").classList.remove("on");
+  $("credits").style.display = "block";
+  const roll = $("roll");
+  roll.innerHTML =
+    "<div class=\"cred\"><span class=\"lbl\">A " + esc(up(VENDOR.name)) + " PRODUCTION</span></div>" +
+    "<div class=\"cred\">" +
+      "<span class=\"lbl\">STARRING</span>" +
+      "<div class=\"val glow\">" + esc(PERSON.name) + "</div>" +
+      "<div class=\"val\" style=\"font-size:.62em;color:#9fb0cc\">as THE FUTURE</div>" +
+      "<div class=\"val glow\">" + esc(PERSON.promotionTitle) + "</div>" +
+    "</div>" +
+    "<div class=\"cred\"><span class=\"lbl\">AT</span><div class=\"val\">" + esc(COMPANY.name) + "</div></div>" +
+    "<div class=\"cred\"><span class=\"lbl\">" + esc(up(STORY.verb || "DEFEATED")) + "</span>" +
+      "<ul>" + ENEMIES.map(e => "<li>" + esc(e.name) + "</li>").join("") + "</ul></div>" +
+    "<div class=\"cred\"><span class=\"lbl\">WITH</span>" +
+      "<div class=\"val\" style=\"font-size:.72em\">" + esc(up(STORY.weapon || VENDOR.tagline)) + "</div></div>" +
+    "<div class=\"cred\"><span class=\"lbl\">PRESENTED BY</span>" +
+      "<div class=\"val glow\">" + esc(VENDOR.name) + "</div>" +
+      "<div class=\"val\" style=\"font-size:.6em;color:#9fb0cc\">" + esc(VENDOR.tagline) + "</div></div>" +
+    "<div class=\"cred\"><span class=\"lbl\">THE END — ALMOST</span></div>";
+
+  const startY = innerHeight * .9;
+  const dist = startY + roll.scrollHeight;
+  const dur = REDUCED ? 3.5 : clamp(dist / 78, 8, 16);
+  const t0 = performance.now();
+
+  cancelAnimationFrame(rollRAF);
+  roll.style.transform = "translateY(" + startY + "px)";
+  const step = now => {
+    if (scene !== LAST){ rollRAF = 0; return; }
+    const k = clamp((now - t0) / 1000 / dur, 0, 1);
+    roll.style.transform = "translateY(" + (startY - dist * k) + "px)";
+    if (k < 1) rollRAF = requestAnimationFrame(step);
+    else { rollRAF = 0; showFinal(); }
+  };
+  rollRAF = requestAnimationFrame(step);
+}
+function stopCredits(){ cancelAnimationFrame(rollRAF); rollRAF = 0; }
+function showFinal(){
+  stopCredits();
+  $("credits").style.display = "none";
+  $("final").classList.add("on");
+  $("skip").hidden = true;
+}
+$("credits").addEventListener("click", showFinal);
+$("f-replay").onclick = () => { showFinalReset(); go(1); };
+function showFinalReset(){
+  $("final").classList.remove("on");
+  $("credits").style.display = "block";
+}
+
+/* ------------------------------------------------------------ 9. BOOT UP */
+paintChrome();
+</script>
+</body>
+</html>

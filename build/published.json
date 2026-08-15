@@ -23,5 +23,31 @@
       "Notion"
     ],
     "created": "2026-08-15"
+  },
+  {
+    "token": "elevenlabs",
+    "url": "https://gtm-hero.vercel.app/g/elevenlabs",
+    "person": "Victoria Weller",
+    "company": "ElevenLabs",
+    "enemies": [
+      "OpenAI",
+      "Descript",
+      "Murf AI",
+      "PlayHT"
+    ],
+    "created": "2026-08-15"
+  },
+  {
+    "token": "synthesia",
+    "url": "https://gtm-hero.vercel.app/g/synthesia",
+    "person": "Aarti Tanna",
+    "company": "Synthesia",
+    "enemies": [
+      "HeyGen",
+      "Colossyan",
+      "Hour One",
+      "D-ID"
+    ],
+    "created": "2026-08-15"
   }
 ]

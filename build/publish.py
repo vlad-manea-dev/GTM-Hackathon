@@ -8,9 +8,9 @@ Writes `public/g/<token>/index.html` (the whole game, self-contained) plus
 link in `build/published.json`.
 
 The engine is never edited. This script replaces the `CONFIG` block in
-`build/game.template.html` wholesale and injects link-preview tags into the
-head — both are matched on stable markers, so the game team can keep changing
-everything else underneath.
+`build/deck.template.html` and injects link-preview tags into the head. The
+template's deck copy and pillars remain the defaults; prospect configs only
+override the fields they provide.
 
 Nothing here deploys. `vercel --prod` does that, and until it runs the link is
 live nowhere: that gap is the human gate.
@@ -33,7 +33,7 @@ from datetime import date
 
 HERE = pathlib.Path(__file__).parent
 ROOT = HERE.parent
-TEMPLATE = HERE / "game.template.html"
+TEMPLATE = HERE / "deck.template.html"
 LOGOS = HERE / "logos"
 CACHE = HERE / ".logo-cache"
 LEDGER = HERE / "published.json"
@@ -185,6 +185,8 @@ def load_config(path: pathlib.Path) -> dict:
     # The engine caps at 4; do the trimming here so the operator sees it happen.
     enemies = [e if isinstance(e, dict) else {"name": str(e)} for e in config["enemies"]]
     enemies = [e for e in enemies if e.get("name")]
+    if not enemies:
+        sys.exit("config is missing required fields: enemies")
     if len(enemies) > 4:
         print(f"note: {len(enemies)} enemies given, keeping the first 4", file=sys.stderr)
     config["enemies"] = enemies[:4]
@@ -250,21 +252,41 @@ def render(config: dict, url: str, title: str, desc: str) -> str:
     # `</script` inside a string would close the block early.
     blob = json.dumps(payload, indent=2, ensure_ascii=False).replace("</", "<\\/")
 
-    html_out, n = CONFIG_BLOCK.subn(
-        lambda m: "const CONFIG = " + blob + ";\n" + m.group(1),
-        template,
-        count=1,
-    )
+    # Keep the rich deck defaults (password flow, interlude and Kota pillars)
+    # in the template while layering the research agent's prospect payload on
+    # top. This lets compact CRM-generated configs build the newest deck
+    # without copying a large, mostly-static sales narrative into every record.
+    def inject(m: re.Match) -> str:
+        defaults = m.group(0).replace("const CONFIG =", "const TEMPLATE_CONFIG =", 1)
+        defaults = re.sub(r'"?__LOGO_[A-Z0-9]+__"?', 'null', defaults)
+        marker = m.group(1)
+        defaults = defaults[:defaults.rfind(marker)]
+        merge = (
+            "const PROSPECT_CONFIG = " + blob + ";\n"
+            "const CONFIG = {\n"
+            "  ...TEMPLATE_CONFIG,\n"
+            "  ...PROSPECT_CONFIG,\n"
+            "  person: {...TEMPLATE_CONFIG.person, ...(PROSPECT_CONFIG.person || {})},\n"
+            "  company: {...TEMPLATE_CONFIG.company, ...(PROSPECT_CONFIG.company || {})},\n"
+            "  story: {...TEMPLATE_CONFIG.story, ...(PROSPECT_CONFIG.story || {})},\n"
+            "  deck: {...TEMPLATE_CONFIG.deck, ...(PROSPECT_CONFIG.deck || {})},\n"
+            "  vendor: {...TEMPLATE_CONFIG.vendor, ...(PROSPECT_CONFIG.vendor || {})},\n"
+            "  pillars: PROSPECT_CONFIG.pillars || TEMPLATE_CONFIG.pillars\n"
+            "};\n"
+        )
+        return defaults + merge + marker
+
+    html_out, n = CONFIG_BLOCK.subn(inject, template, count=1)
     if n != 1:
-        sys.exit("could not find the CONFIG block in game.template.html — has the "
+        sys.exit("could not find the CONFIG block in deck.template.html — has the "
                  "'END OF CONFIG' marker changed?")
 
-    if "__LOGO_" in html_out:
+    if re.search(r"__LOGO_[A-Z0-9]+__", html_out):
         sys.exit("template still has __LOGO_*__ placeholders outside the CONFIG block")
 
     html_out, n = TITLE_TAG.subn(lambda _: head_tags(config, url, title, desc), html_out, count=1)
     if n != 1:
-        sys.exit("could not find <title> in game.template.html to attach preview tags to")
+        sys.exit("could not find <title> in deck.template.html to attach preview tags to")
 
     return html_out
 

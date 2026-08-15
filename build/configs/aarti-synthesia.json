@@ -1,0 +1,8 @@
+{
+  "person": {"name": "Aarti Tanna", "title": "People Operations Lead", "promotionTitle": "The Human Systems Architect"},
+  "company": {"name": "Synthesia"},
+  "enemies": [{"name": "HeyGen"}, {"name": "Colossyan"}, {"name": "Hour One"}, {"name": "D-ID"}],
+  "story": {"threat": "THE TALENT WAR", "mission": "BUILD GLOBALLY. KEEP IT HUMAN.", "verb": "OUT-HIRED", "weapon": "BENEFITS PEOPLE ACTUALLY FEEL"},
+  "vendor": {"name": "Kota", "tagline": "Global systems. Human experience.", "accentColor": "#6C5CE7", "ctaUrl": "https://kota.io/demo"},
+  "share": {"title": "Aarti Tanna vs. the talent war", "description": "A personalised 60-second game from Kota, built from evidence—not mail merge."}
+}

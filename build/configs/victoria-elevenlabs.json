@@ -1,0 +1,30 @@
+{
+  "person": {
+    "name": "Victoria Weller",
+    "title": "Operations",
+    "promotionTitle": "The Invisible Operator"
+  },
+  "company": { "name": "ElevenLabs" },
+  "enemies": [
+    { "name": "OpenAI", "logo": "openai.png" },
+    { "name": "Descript", "logo": "descript.png" },
+    { "name": "Murf AI", "logo": "murf.png" },
+    { "name": "PlayHT", "logo": "play.png" }
+  ],
+  "story": {
+    "threat": "THE TALENT WAR",
+    "mission": "BUILD QUIETLY. SCALE BRILLIANTLY.",
+    "verb": "OUT-HIRED",
+    "weapon": "BENEFITS THEY CAN'T MATCH"
+  },
+  "vendor": {
+    "name": "Kota",
+    "tagline": "Global benefits. Quietly brilliant.",
+    "accentColor": "#6C5CE7",
+    "ctaUrl": "https://kota.io/demo"
+  },
+  "share": {
+    "title": "Victoria Weller vs. the talent war",
+    "description": "A personalised 60-second game from Kota, built from evidence—not mail merge."
+  }
+}

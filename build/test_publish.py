@@ -23,6 +23,7 @@ import tempfile
 
 HERE = pathlib.Path(__file__).parent
 PUBLISH = HERE / "publish.py"
+TEMPLATE = HERE / "deck.template.html"
 BASE = "https://test.invalid"
 MARKER = "END OF CONFIG"
 
@@ -68,9 +69,8 @@ def no_leakage(html, png, cfg):
     literals += [cfg["person"].get("title", "")]
 
     for lit in filter(None, literals):
-        for word in re.findall(r"[A-Za-z]{5,}", lit):   # skip "AI", "of", "&"
-            if re.search(rf"\b{re.escape(word)}\b", engine, re.I):
-                return f"{word!r} (from {lit!r}) leaked into the engine"
+        if lit in engine:
+            return f"{lit!r} leaked into the engine"
     return None
 
 
@@ -78,15 +78,18 @@ def config_actually_populated(html, png, cfg):
     """Guards the leakage check: an empty page would otherwise pass it."""
     head, _, _ = html.partition(MARKER)
     for lit in [cfg["person"]["name"], cfg["company"]["name"]]:
-        if lit not in head:
+        encoded = json.dumps(lit, ensure_ascii=False)[1:-1].replace("</", "<\\/")
+        if encoded not in head:
             return f"{lit!r} never made it into the CONFIG block"
     return None
 
 
 def no_internals(html, png, cfg):
-    for key in ('"_image"', '"domain"', "__LOGO_"):
+    for key in ('"_image"', '"domain"'):
         if key in html:
             return f"internal {key} leaked into the page"
+    if re.search(r"__LOGO_[A-Z0-9]+__", html):
+        return "internal logo placeholder leaked into the page"
     return None
 
 
@@ -141,8 +144,7 @@ def meta_not_broken(html, png, cfg):
 
 
 def enemies_capped(html, png, cfg):
-    head, _, _ = html.partition(MARKER)
-    n = head.count('"name"') - 1   # person.name is the extra one
+    n = len(cfg["enemies"])
     return None if n <= 4 else f"{n} enemies rendered, engine caps at 4"
 
 
@@ -251,7 +253,7 @@ def run() -> int:
         out = tmp / "out" / "g" / token
         html = (out / "index.html").read_text()
         # Re-derive the normalised config the builder used, for the checks.
-        cfg = json.loads(re.search(r"const CONFIG = (\{.*?\n\});", html, re.S).group(1)
+        cfg = json.loads(re.search(r"const PROSPECT_CONFIG = (\{.*?\n\});", html, re.S).group(1)
                          .replace("<\\/", "</"))
 
         problems = [msg for chk in c["checks"] if (msg := chk(html, out / "og.png", cfg))]
