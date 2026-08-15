@@ -2,10 +2,12 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, ArrowUpRight, Bot, BriefcaseBusiness, Check, CheckCircle2, CircleUserRound, Copy, Database, ExternalLink, Globe2, Play, Radio, RotateCcw, Search, ShieldCheck, Sparkles, WandSparkles, Zap } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { PipelineNav } from "./components/PipelineNav";
+import { elevenLabsVerifiedRun } from "./data/elevenlabs-cache";
 import "./result-links.css";
 import "./live.css";
+import "./cache.css";
 
 type Evidence = {source:string;title:string;url:string;quote:string;claim:string;tier:string};
 type Result = {
@@ -54,6 +56,9 @@ export default function Home(){
   const [error,setError]=useState("");
   const [copied,setCopied]=useState(false);
   const [rawOpen,setRawOpen]=useState(false);
+  const [cacheMeta,setCacheMeta]=useState<{runId:string;cachedAt:string}|null>(null);
+  const abortRef=useRef<AbortController|null>(null);
+  const cacheChosenRef=useRef(false);
   const gamePath=useMemo(()=>result?`/api/game?config=${encodeConfig(result)}`:"",[result]);
 
   useEffect(()=>{
@@ -69,9 +74,10 @@ export default function Home(){
 
   const launch=async()=>{
     if(!target.trim()) return;
-    setPhase("running");setStep(0);setElapsed(0);setProviders([]);setWarnings([]);setResult(null);setError("");
+    setPhase("running");setStep(0);setElapsed(0);setProviders([]);setWarnings([]);setResult(null);setError("");setCacheMeta(null);cacheChosenRef.current=false;
+    const controller=new AbortController();abortRef.current=controller;
     try{
-      const response=await fetch("/api/research",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({sellerCompany:"Kota",sellerWebsite:"kota.io",targetCompany:target,targetWebsite:website,buyingPersona:persona,firstPartyTranscript:transcript})});
+      const response=await fetch("/api/research",{method:"POST",headers:{"Content-Type":"application/json"},signal:controller.signal,body:JSON.stringify({sellerCompany:"Kota",sellerWebsite:"kota.io",targetCompany:target,targetWebsite:website,buyingPersona:persona,firstPartyTranscript:transcript})});
       if(!response.ok||!response.body) throw new Error((await response.json().catch(()=>null))?.error||`Request failed (${response.status})`);
       const reader=response.body.getReader(); const decoder=new TextDecoder(); let buffer="";
       while(true){
@@ -81,15 +87,21 @@ export default function Home(){
           if(e.type==="stage") setStep(e.step);
           if(e.type==="provider") setProviders(p=>[...p,e]);
           if(e.type==="warning") setWarnings(w=>[...w,`${e.provider}: ${e.message}`]);
-          if(e.type==="result"){setResult(e.result);setStep(5);setPhase("done");}
+          if(e.type==="result"&&!cacheChosenRef.current){setResult(e.result);setStep(5);setPhase("done");}
           if(e.type==="error") throw new Error(e.message);
         }
         if(done) break;
       }
       if(!result&&phase==="running"){} // state is finalized by the streamed result event
-    }catch(e){setError(e instanceof Error?e.message:String(e));setPhase("error");}
+    }catch(e){if(!cacheChosenRef.current){setError(e instanceof Error?e.message:String(e));setPhase("error");}}
   };
-  const reset=()=>{setPhase("setup");setStep(0);setResult(null);setProviders([]);setWarnings([])};
+  const pullVerifiedRun=()=>{
+    cacheChosenRef.current=true;abortRef.current?.abort();
+    setResult(structuredClone(elevenLabsVerifiedRun.result) as Result);
+    setCacheMeta({runId:elevenLabsVerifiedRun.runId,cachedAt:elevenLabsVerifiedRun.cachedAt});
+    setStep(5);setPhase("done");
+  };
+  const reset=()=>{abortRef.current?.abort();setPhase("setup");setStep(0);setResult(null);setProviders([]);setWarnings([]);setCacheMeta(null)};
   const copy=async()=>{await navigator.clipboard.writeText(`${window.location.origin}${gamePath}`);setCopied(true);setTimeout(()=>setCopied(false),1600)};
   const initials=(result?.company.name||target).split(/\s+/).map(x=>x[0]).join("").slice(0,2).toUpperCase();
 
@@ -113,7 +125,7 @@ export default function Home(){
       </motion.section>}
 
       {phase==="running"&&<motion.section key="running" className="runScreen" initial={{opacity:0}} animate={{opacity:1}}>
-        <div className="runHeader"><div><div className="crumb">KOTA <span>/</span> {target.toUpperCase()}</div><h2>Researching <em>{target}</em> from live sources</h2></div><div className="timer"><small>ELAPSED</small><b>{elapsed.toFixed(1)}s</b></div></div>
+        <div className="runHeader"><div><div className="crumb">KOTA <span>/</span> {target.toUpperCase()}</div><h2>Researching <em>{target}</em> from live sources</h2></div><div className="runControls"><button className="cachePull" onClick={pullVerifiedRun}><Database size={14}/><span><small>PREVIOUSLY RESEARCHED</small>Pull verified run</span><ArrowRight size={14}/></button><div className="timer"><small>ELAPSED</small><b>{elapsed.toFixed(1)}s</b></div></div></div>
         <div className="pipeline">
           <aside className="stages">{steps.map((s,i)=><div className={`stage ${i<step?"complete":i===step?"active":""}`} key={s.label}><div className="stageDot">{i<step?<Check size={13}/>:i+1}</div><div><b>{s.label}</b><span>{s.source}</span></div>{i===step&&<motion.i layoutId="activeGlow"/>}</div>)}</aside>
           <section className="researchCanvas"><div className="canvasTop"><span><Radio size={14}/> LIVE PROVIDER STREAM</span><b>{providers.length} responses received</b></div><div className="orbit"><motion.div className="agentCore" animate={{boxShadow:["0 0 20px rgba(216,255,97,.12)","0 0 70px rgba(216,255,97,.35)","0 0 20px rgba(216,255,97,.12)"]}} transition={{duration:2,repeat:Infinity}}><Bot size={26}/><span>RESEARCH<br/>AGENT</span></motion.div><div className="ring ring1"/><div className="ring ring2"/></div><div className="evidenceGrid"><AnimatePresence>{providers.slice(0,6).map((p,i)=><motion.article className={`evidence e${i}`} key={`${p.provider}-${i}`} initial={{opacity:0,scale:.78,y:15}} animate={{opacity:1,scale:1,y:0}}><div className="evidenceTop"><span className="sourceIcon"><Database size={16}/></span><small>{p.provider}</small><CheckCircle2 size={14}/></div><b>{p.label}</b><p>{JSON.stringify(p.raw).slice(0,115)}…</p><span className="tier">RAW API RESPONSE</span></motion.article>)}</AnimatePresence></div><motion.div className="scanMessage"><span className="scanLine"/><Search size={15}/> {steps[Math.min(step,4)].label}…</motion.div></section>
@@ -122,7 +134,7 @@ export default function Home(){
       </motion.section>}
 
       {phase==="done"&&result&&<motion.section key="done" className="doneScreen" initial={{opacity:0}} animate={{opacity:1}}>
-        <motion.div className="successOrb" initial={{scale:0}} animate={{scale:1}}><Check size={30}/></motion.div><div className="doneIntro"><span>LIVE RESEARCH COMPLETE · DECK GENERATED</span><h2>{result.game.title}</h2><p>A sourced proposal for {result.prospect.name}, {result.prospect.title} at {result.company.name}, built from {result.evidence.length} evidence records.</p></div>
+        <motion.div className="successOrb" initial={{scale:0}} animate={{scale:1}}><Check size={30}/></motion.div><div className="doneIntro"><span>{cacheMeta?`VERIFIED RUN ${cacheMeta.runId} RESTORED · DECK READY`:"LIVE RESEARCH COMPLETE · DECK GENERATED"}</span><h2>{result.game.title}</h2><p>A sourced proposal for {result.prospect.name}, {result.prospect.title} at {result.company.name}, built from {result.evidence.length} evidence records.</p>{cacheMeta&&<em className="cacheStamp"><Database size={11}/> Pulled from verified run · {new Date(cacheMeta.cachedAt).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}</em>}</div>
         <div className="resultGrid"><div className="gameCard"><div className="gameVisual"><div className="stars">✦　·　✧<br/>　·　✦　 ·</div><div className="gameLogo">{initials}</div><span>MADE FOR {result.prospect.name.toUpperCase()}</span><h3>{result.game.title}</h3><a href={gamePath} target="_blank"><Play size={17} fill="currentColor"/> Play Deck experience</a></div></div>
           <div className="resultInfo"><div className="quality"><div><small>RESEARCH QUALITY</small><strong>{result.quality.score}<span>/100</span></strong></div><div className="qualityRing" style={{background:`conic-gradient(var(--lime) 0 ${result.quality.score}%,#282a24 ${result.quality.score}%)`}}><span>{result.quality.score}%</span></div></div><div className="why"><small>WHY THIS PERSON</small><p>{result.prospect.whyThisPerson}</p></div><div className="usedHooks"><small>EVIDENCED PERSONAL TOUCHES</small><div>{result.prospect.personalHooks.map(h=><span key={h}><Check size={11}/>{h}</span>)}</div></div><div className="shareBox"><div><small>GENERATED LIVE DECK</small><a href={gamePath} target="_blank">localhost:3000/api/game?config=…</a></div><button onClick={copy}>{copied?<Check size={17}/>:<Copy size={17}/>} {copied?"Copied":"Copy"}</button><a className="open" href={gamePath} target="_blank"><ExternalLink size={17}/></a></div></div></div>
         <section className="evidenceReceipt"><div><span>GROUNDING RECEIPT</span><b>{result.evidence.length} sources retained</b><button onClick={()=>setRawOpen(!rawOpen)}><Globe2 size={13}/>{rawOpen?"Hide":"Show"} evidence</button></div>{rawOpen&&<div className="receiptGrid">{result.evidence.map((e,i)=><article key={`${e.url}-${i}`}><small>{e.tier} · {e.source}</small><a href={e.url} target="_blank">{e.title}<ExternalLink size={11}/></a><p>{e.claim}</p>{e.quote&&<blockquote>“{e.quote}”</blockquote>}</article>)}</div>}</section>
