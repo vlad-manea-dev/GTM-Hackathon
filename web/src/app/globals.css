@@ -34,7 +34,8 @@ body {
 }
 
 /* Dashes travelling along the wires, the way an n8n run animates. */
-.wire-flow {
+.wire-flow,
+.wire-flow-v {
   animation: wire-flow 1.4s linear infinite;
 }
 
@@ -45,7 +46,8 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .wire-flow {
+  .wire-flow,
+  .wire-flow-v {
     animation: none;
     opacity: 0.5;
   }

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { WorkflowCanvas } from "@/components/workflow-canvas";
 
 export default function Home() {
@@ -16,6 +18,12 @@ export default function Home() {
             to the call, updates the CRM, writes the proposal — and builds the
             buyer a game.
           </p>
+          <Link
+            href="/deals"
+            className="mt-2 w-fit rounded-full bg-zinc-900 px-5 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+          >
+            Open the pipeline →
+          </Link>
         </header>
 
         <WorkflowCanvas />
