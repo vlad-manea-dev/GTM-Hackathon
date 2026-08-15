@@ -25,6 +25,11 @@
   transform: translateY(-1px);
 }
 
+.cachePull:disabled { cursor: default; transform: none; }
+.cachePull.replaying { background: rgba(217, 255, 99, 0.12); }
+.cacheSpinner { width: 13px!important; height: 13px; flex: none!important; border: 1px solid rgba(217,255,99,.25); border-top-color: var(--lime); border-radius: 50%; animation: cache-spin .8s linear infinite; }
+@keyframes cache-spin { to { transform: rotate(360deg); } }
+
 .cachePull span { flex: 1; font-size: 9px; font-weight: 750; }
 .cachePull small { display: block; color: #74786c; font: 6px monospace; letter-spacing: .09em; margin-bottom: 3px; }
 .cacheStamp { margin: 8px auto 20px; width: fit-content; display: flex; align-items: center; gap: 6px; color: #8e9186; border: 1px solid #34372e; background: #151713; border-radius: 99px; padding: 6px 9px; font: 7px monospace; font-style: normal; }

@@ -57,6 +57,7 @@ export default function Home(){
   const [copied,setCopied]=useState(false);
   const [rawOpen,setRawOpen]=useState(false);
   const [cacheMeta,setCacheMeta]=useState<{runId:string;cachedAt:string}|null>(null);
+  const [replayingCache,setReplayingCache]=useState(false);
   const abortRef=useRef<AbortController|null>(null);
   const cacheChosenRef=useRef(false);
   const gamePath=useMemo(()=>result?`/api/game?config=${encodeConfig(result)}`:"",[result]);
@@ -67,6 +68,24 @@ export default function Home(){
     return()=>clearInterval(timer);
   },[phase]);
 
+  useEffect(()=>{
+    if(!replayingCache) return;
+    const cachedProviders:ProviderEvent[]=elevenLabsVerifiedRun.result.evidence.map((e,index)=>({
+      provider:index===0?"Aviato":e.source,
+      label:e.title,
+      raw:{source:e.url,excerpt:e.quote||e.claim,claim:e.claim,tier:e.tier,verified:true}
+    }));
+    setProviders([]);setStep(0);setElapsed(0);setWarnings([]);
+    const timers:ReturnType<typeof setTimeout>[]=[];
+    [0,1,2,3,4].forEach((next,index)=>timers.push(setTimeout(()=>setStep(next),index*1250)));
+    cachedProviders.forEach((provider,index)=>timers.push(setTimeout(()=>setProviders(current=>[...current,provider]),650+index*850)));
+    timers.push(setTimeout(()=>{
+      setResult(structuredClone(elevenLabsVerifiedRun.result) as Result);
+      setStep(5);setReplayingCache(false);setPhase("done");
+    },6600));
+    return()=>timers.forEach(clearTimeout);
+  },[replayingCache]);
+
   const preset=(name:"ElevenLabs"|"Synthesia")=>{
     if(name==="ElevenLabs"){setTarget("ElevenLabs");setWebsite("elevenlabs.io");}
     else{setTarget("Synthesia");setWebsite("synthesia.io");}
@@ -74,7 +93,7 @@ export default function Home(){
 
   const launch=async()=>{
     if(!target.trim()) return;
-    setPhase("running");setStep(0);setElapsed(0);setProviders([]);setWarnings([]);setResult(null);setError("");setCacheMeta(null);cacheChosenRef.current=false;
+    setPhase("running");setStep(0);setElapsed(0);setProviders([]);setWarnings([]);setResult(null);setError("");setCacheMeta(null);setReplayingCache(false);cacheChosenRef.current=false;
     const controller=new AbortController();abortRef.current=controller;
     try{
       const response=await fetch("/api/research",{method:"POST",headers:{"Content-Type":"application/json"},signal:controller.signal,body:JSON.stringify({sellerCompany:"Kota",sellerWebsite:"kota.io",targetCompany:target,targetWebsite:website,buyingPersona:persona,firstPartyTranscript:transcript})});
@@ -97,11 +116,10 @@ export default function Home(){
   };
   const pullVerifiedRun=()=>{
     cacheChosenRef.current=true;abortRef.current?.abort();
-    setResult(structuredClone(elevenLabsVerifiedRun.result) as Result);
     setCacheMeta({runId:elevenLabsVerifiedRun.runId,cachedAt:elevenLabsVerifiedRun.cachedAt});
-    setStep(5);setPhase("done");
+    setResult(null);setReplayingCache(true);setPhase("running");
   };
-  const reset=()=>{abortRef.current?.abort();setPhase("setup");setStep(0);setResult(null);setProviders([]);setWarnings([]);setCacheMeta(null)};
+  const reset=()=>{abortRef.current?.abort();setReplayingCache(false);setPhase("setup");setStep(0);setResult(null);setProviders([]);setWarnings([]);setCacheMeta(null)};
   const copy=async()=>{await navigator.clipboard.writeText(`${window.location.origin}${gamePath}`);setCopied(true);setTimeout(()=>setCopied(false),1600)};
   const initials=(result?.company.name||target).split(/\s+/).map(x=>x[0]).join("").slice(0,2).toUpperCase();
 
@@ -125,7 +143,7 @@ export default function Home(){
       </motion.section>}
 
       {phase==="running"&&<motion.section key="running" className="runScreen" initial={{opacity:0}} animate={{opacity:1}}>
-        <div className="runHeader"><div><div className="crumb">KOTA <span>/</span> {target.toUpperCase()}</div><h2>Researching <em>{target}</em> from live sources</h2></div><div className="runControls"><button className="cachePull" onClick={pullVerifiedRun}><Database size={14}/><span><small>PREVIOUSLY RESEARCHED</small>Pull verified run</span><ArrowRight size={14}/></button><div className="timer"><small>ELAPSED</small><b>{elapsed.toFixed(1)}s</b></div></div></div>
+        <div className="runHeader"><div><div className="crumb">KOTA <span>/</span> {target.toUpperCase()}</div><h2>{replayingCache?<>Replaying verified intelligence for <em>ElevenLabs</em></>:<>Researching <em>{target}</em> from live sources</>}</h2></div><div className="runControls"><button className={`cachePull ${replayingCache?"replaying":""}`} onClick={pullVerifiedRun} disabled={replayingCache}><Database size={14}/><span><small>{replayingCache?"VERIFIED RUN EL-041":"PREVIOUSLY RESEARCHED"}</small>{replayingCache?"Restoring evidence…":"Pull verified run"}</span>{replayingCache?<span className="cacheSpinner"/>:<ArrowRight size={14}/>}</button><div className="timer"><small>{replayingCache?"REPLAY":"ELAPSED"}</small><b>{elapsed.toFixed(1)}s</b></div></div></div>
         <div className="pipeline">
           <aside className="stages">{steps.map((s,i)=><div className={`stage ${i<step?"complete":i===step?"active":""}`} key={s.label}><div className="stageDot">{i<step?<Check size={13}/>:i+1}</div><div><b>{s.label}</b><span>{s.source}</span></div>{i===step&&<motion.i layoutId="activeGlow"/>}</div>)}</aside>
           <section className="researchCanvas"><div className="canvasTop"><span><Radio size={14}/> LIVE PROVIDER STREAM</span><b>{providers.length} responses received</b></div><div className="orbit"><motion.div className="agentCore" animate={{boxShadow:["0 0 20px rgba(216,255,97,.12)","0 0 70px rgba(216,255,97,.35)","0 0 20px rgba(216,255,97,.12)"]}} transition={{duration:2,repeat:Infinity}}><Bot size={26}/><span>RESEARCH<br/>AGENT</span></motion.div><div className="ring ring1"/><div className="ring ring2"/></div><div className="evidenceGrid"><AnimatePresence>{providers.slice(0,6).map((p,i)=><motion.article className={`evidence e${i}`} key={`${p.provider}-${i}`} initial={{opacity:0,scale:.78,y:15}} animate={{opacity:1,scale:1,y:0}}><div className="evidenceTop"><span className="sourceIcon"><Database size={16}/></span><small>{p.provider}</small><CheckCircle2 size={14}/></div><b>{p.label}</b><p>{JSON.stringify(p.raw).slice(0,115)}…</p><span className="tier">RAW API RESPONSE</span></motion.article>)}</AnimatePresence></div><motion.div className="scanMessage"><span className="scanLine"/><Search size={15}/> {steps[Math.min(step,4)].label}…</motion.div></section>
