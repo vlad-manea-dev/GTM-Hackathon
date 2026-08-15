@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GTM Hero</title>
+<meta name="robots" content="noindex" />
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  :root { --accent:#6C5CE7; --bg:#05060a; --ink:#f4f4f8; --muted:#78808f; }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; min-height:100vh; display:grid; place-items:center; padding:8vh 24px;
+    background:var(--bg); color:var(--ink);
+    font-family:"Press Start 2P", ui-monospace, monospace; line-height:2;
+  }
+  /* Same CRT overlay as the game, so the front door matches the room. */
+  body::after {
+    content:""; position:fixed; inset:0; pointer-events:none;
+    background:repeating-linear-gradient(rgba(0,0,0,.28) 0 1px, transparent 1px 3px);
+  }
+  main { max-width:640px; text-align:center; }
+  h1 { font-size:clamp(20px,5vw,32px); margin:0 0 28px; text-shadow:0 0 18px var(--accent); }
+  p { font-size:11px; color:var(--muted); line-height:2.2; margin:0 0 20px; }
+  .accent { color:var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>GTM HERO</h1>
+  <p>
+    A personalised arcade game, one link per prospect.<br />
+    Their competitors are the invaders. Winning gets them promoted.
+  </p>
+  <p class="accent">Every link lives at /g/&lt;token&gt; and is built for one person.</p>
+  <p>Nothing to see at this address.</p>
+</main>
+</body>
+</html>

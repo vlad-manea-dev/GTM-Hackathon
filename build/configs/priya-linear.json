@@ -1,0 +1,13 @@
+{
+  "person": {
+    "name": "Priya Raman",
+    "title": "VP Engineering",
+    "promotionTitle": "Chief Technology Officer"
+  },
+  "company": { "name": "Linear" },
+  "enemies": [
+    { "name": "Atlassian", "domain": "atlassian.com" },
+    { "name": "Asana",     "domain": "asana.com" },
+    { "name": "Notion",    "domain": "notion.so" }
+  ]
+}

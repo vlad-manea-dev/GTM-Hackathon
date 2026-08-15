@@ -1,0 +1,3 @@
+# Prospect links are unguessable, not secret. Keep them out of every index.
+User-agent: *
+Disallow: /g/

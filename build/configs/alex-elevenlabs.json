@@ -1,0 +1,14 @@
+{
+  "person": {
+    "name": "Alex Rivera",
+    "title": "Head of People",
+    "promotionTitle": "Chief People Officer"
+  },
+  "company": { "name": "ElevenLabs" },
+  "enemies": [
+    { "name": "OpenAI",   "logo": "openai.png"   },
+    { "name": "Descript", "logo": "descript.png" },
+    { "name": "Murf AI",  "logo": "murf.png"     },
+    { "name": "PlayHT",   "logo": "play.png"     }
+  ]
+}

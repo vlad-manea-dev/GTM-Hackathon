@@ -1,0 +1,27 @@
+[
+  {
+    "token": "gausyup9",
+    "url": "https://gtm-hero.vercel.app/g/gausyup9",
+    "person": "Alex Rivera",
+    "company": "ElevenLabs",
+    "enemies": [
+      "OpenAI",
+      "Descript",
+      "Murf AI",
+      "PlayHT"
+    ],
+    "created": "2026-08-15"
+  },
+  {
+    "token": "57dkv7sh",
+    "url": "https://gtm-hero.vercel.app/g/57dkv7sh",
+    "person": "Priya Raman",
+    "company": "Linear",
+    "enemies": [
+      "Atlassian",
+      "Asana",
+      "Notion"
+    ],
+    "created": "2026-08-15"
+  }
+]
