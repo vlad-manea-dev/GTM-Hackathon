@@ -1,0 +1,34 @@
+.gameVisual > a {
+  border: 1px solid #555a45;
+  background: rgba(217, 255, 99, 0.1);
+  color: var(--lime);
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  text-decoration: none;
+  position: relative;
+  z-index: 2;
+}
+
+.shareBox > div > a {
+  font: 10px monospace;
+  color: #dfe1d5;
+  text-decoration: none;
+}
+
+.shareBox > div > a:hover { color: var(--lime); }
+
+.shareBox > .open {
+  border: 0;
+  background: var(--lime);
+  color: #11120e;
+  border-radius: 6px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  margin-left: 5px;
+}
