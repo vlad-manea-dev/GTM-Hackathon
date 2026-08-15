@@ -802,7 +802,7 @@ function startGame(){
     ship: { x: w / 2, y: h / 2, a: -Math.PI / 2, vx: 0, vy: 0, alive: true, respawnAt: 0, inv: 120 },
     bullets: [], particles: [], keys: {}, lastShot: 0,
     kills: 0, cleared: false, frame: 0,
-    touch: null, pointerDown: false,
+    touch: null, pointerDown: false, introUp: true,
     stars: Array.from({ length: 120 }, () => ({
       x: Math.random() * w, y: Math.random() * h,
       s: Math.random() * 1.8 + .4, tw: Math.random() * Math.PI * 2
@@ -835,7 +835,10 @@ function stopGame(){
   canvas.removeEventListener("pointercancel", gPointerEnd);
 }
 
-function hideIntro(){ $("intro").style.display = "none"; }
+function hideIntro(){
+  $("intro").style.display = "none";
+  if (G) G.introUp = false;
+}
 
 const GKEYS = ["w","a","s","d"," ","arrowup","arrowdown","arrowleft","arrowright"];
 function gKeyDown(e){
@@ -972,7 +975,10 @@ function gloop(){
     }
   }
 
-  if (s.alive && s.inv <= 0 && !G.cleared){
+  // Nothing may kill the player while the controls overlay is still up — the
+  // ship sits still at spawn, and a drifting rival would otherwise pick it off
+  // before the reader has finished learning which keys to press.
+  if (s.alive && s.inv <= 0 && !G.cleared && !G.introUp){
     for (const a of G.rocks){
       if ((s.x - a.x) * (s.x - a.x) + (s.y - a.y) * (s.y - a.y) < (a.r + 12) * (a.r + 12)){
         s.alive = false;

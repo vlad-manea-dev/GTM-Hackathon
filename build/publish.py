@@ -272,9 +272,10 @@ def render(config: dict, url: str, title: str, desc: str) -> str:
 # --------------------------------------------------------------------------
 
 
-def base_url(arg: str | None) -> str:
+def base_url(arg: str | None, remember: bool = True) -> str:
     if arg:
-        SITE.write_text(json.dumps({"baseUrl": arg.rstrip("/")}, indent=2) + "\n")
+        if remember:
+            SITE.write_text(json.dumps({"baseUrl": arg.rstrip("/")}, indent=2) + "\n")
         return arg.rstrip("/")
     if SITE.exists():
         return json.loads(SITE.read_text())["baseUrl"].rstrip("/")
@@ -301,12 +302,15 @@ def main() -> int:
     ap.add_argument("config", type=pathlib.Path, help="prospect config JSON")
     ap.add_argument("--token", help="reuse an existing token instead of minting one")
     ap.add_argument("--base-url", help="site root, e.g. https://gtm-hero.vercel.app")
+    ap.add_argument("--out", type=pathlib.Path, default=PUBLIC,
+                    help="output root (default: public/); tests point this at a temp dir")
     args = ap.parse_args()
 
     if not args.config.is_file():
         sys.exit(f"no such config: {args.config}")
 
-    base = base_url(args.base_url)
+    # A throwaway output dir must not clobber the remembered site root.
+    base = base_url(args.base_url, remember=args.out == PUBLIC)
     config = load_config(args.config)
     token = args.token or "".join(secrets.choice(ALPHABET) for _ in range(TOKEN_LEN))
     # No trailing slash: vercel.json redirects those, and a 308 on the way to
@@ -318,7 +322,7 @@ def main() -> int:
         print(line)
 
     title, desc = share_copy(config)
-    out_dir = PUBLIC / "g" / token
+    out_dir = args.out / "g" / token
     out_dir.mkdir(parents=True, exist_ok=True)
 
     import og
@@ -326,12 +330,14 @@ def main() -> int:
 
     page = render(config, url, title, desc)
     (out_dir / "index.html").write_text(page)
-    record(token, config, url)
+    if args.out == PUBLIC:
+        record(token, config, url)
 
+    rel = lambda p: p.relative_to(ROOT) if p.is_relative_to(ROOT) else p
     print(f"\n  {config['person']['name']} — {config['company']['name']}")
-    print(f"  page    {(out_dir / 'index.html').relative_to(ROOT)}  "
+    print(f"  page    {rel(out_dir / 'index.html')}  "
           f"({(out_dir / 'index.html').stat().st_size // 1024} KB)")
-    print(f"  preview {(out_dir / 'og.png').relative_to(ROOT)}  "
+    print(f"  preview {rel(out_dir / 'og.png')}  "
           f"({(out_dir / 'og.png').stat().st_size // 1024} KB)")
     print(f"  title   {title}")
     print(f"\n  {url}\n")
