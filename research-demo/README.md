@@ -20,6 +20,17 @@ research result links to the corresponding real Deck Template output:
 
 Other presentation routes are `/sources`, `/transform`, and `/game`.
 
+## Connect live providers
+
+```bash
+cp .env.example .env.local
+```
+
+Add an OpenAI API key and Aviato API key to `.env.local`, then restart the dev
+server. OpenAI is required; Aviato is optional and visibly degrades to public
+web buyer discovery when absent. No hard-coded research result is used by the
+live form.
+
 ## Build
 
 ```bash

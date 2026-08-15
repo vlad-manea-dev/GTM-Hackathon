@@ -20,6 +20,12 @@ npm run dev
 Open `http://localhost:3000`. The included account outputs are `/g/elevenlabs/`
 and `/g/synthesia/`.
 
+For live arbitrary-company research, copy `research-demo/.env.example` to
+`research-demo/.env.local` and add `OPENAI_API_KEY` and `AVIATO_API_KEY`. The
+app makes one company-enrichment request, one un-enriched people search, and a
+cost-bounded OpenAI web-search run. Missing providers are shown as real errors
+or warnings; the UI never substitutes demo data.
+
 ## Generate another deck
 
 ```bash
