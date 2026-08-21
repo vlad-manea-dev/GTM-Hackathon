@@ -1,0 +1,165 @@
+.row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.card {
+  border-radius: var(--sc-radius-lg);
+  padding: 16px 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 168px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(160px 90px at 88% -25%, rgba(255, 255, 255, 0.4), transparent 70%);
+  pointer-events: none;
+}
+
+.cardWarn {
+  background: linear-gradient(160deg, var(--sc-warn-soft), var(--sc-surface) 62%);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  position: relative;
+}
+
+.head h2 {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--sc-text-dim);
+}
+
+.chip {
+  font-size: 10.5px;
+  color: var(--sc-text-faint);
+  background: var(--sc-surface-solid);
+  border: 1px solid var(--sc-line);
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.value {
+  position: relative;
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.foot {
+  position: relative;
+  margin: 0;
+  font-size: 11px;
+  color: var(--sc-text-faint);
+}
+
+/* 1 — ribbon */
+.ribbon {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  min-height: 38px;
+  margin-top: 2px;
+}
+
+.ribbonSeg {
+  flex: 1;
+  border-radius: 4px 4px 2px 2px;
+  opacity: 0.85;
+}
+
+/* 2 — bars */
+.bars {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  min-height: 38px;
+  margin-top: 2px;
+}
+
+.bar {
+  flex: 1;
+  min-height: 4px;
+  border-radius: 3px 3px 1px 1px;
+  background: linear-gradient(180deg, var(--sc-good), color-mix(in srgb, var(--sc-good) 25%, transparent));
+}
+
+/* 3 — gauge */
+.gaugeWrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 60px;
+}
+
+.gauge {
+  width: 128px;
+  height: 70px;
+}
+
+.gaugeValue {
+  position: absolute;
+  bottom: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* 4 — dot matrix */
+.dots {
+  position: relative;
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-content: center;
+  gap: 7px;
+  min-height: 38px;
+  justify-items: start;
+}
+
+.dotIdle,
+.dotWarn {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+}
+
+.dotIdle {
+  background: var(--sc-line-hi);
+}
+
+.dotWarn {
+  background: var(--sc-warn);
+  box-shadow: 0 0 0 3px var(--sc-warn-soft);
+}
+
+@media (max-width: 1240px) {
+  .row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}

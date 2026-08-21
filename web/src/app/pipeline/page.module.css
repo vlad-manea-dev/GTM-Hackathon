@@ -1,0 +1,28 @@
+.shell {
+  display: flex;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 24px 28px 48px;
+  max-width: 1680px;
+  width: 100%;
+}
+
+@media (max-width: 860px) {
+  .content {
+    padding: 18px 18px 36px;
+    gap: 18px;
+  }
+}

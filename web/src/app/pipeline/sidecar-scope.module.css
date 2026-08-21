@@ -1,0 +1,136 @@
+/*
+  Design tokens for the Sidecar dashboard UI, scoped to this route only.
+  Prefixed --sc- throughout so nothing here can collide with the host
+  app's own Tailwind setup or CSS custom properties.
+*/
+.scope {
+  --sc-ground: #eceff7;
+  --sc-surface: rgba(255, 255, 255, 0.62);
+  --sc-surface-strong: rgba(255, 255, 255, 0.82);
+  --sc-surface-solid: #ffffff;
+  --sc-line: rgba(19, 24, 44, 0.09);
+  --sc-line-hi: rgba(19, 24, 44, 0.16);
+  --sc-text: #12162a;
+  --sc-text-dim: #565f80;
+  --sc-text-faint: #646c8a;
+
+  --sc-accent: #0b6d7f;
+  --sc-accent-soft: rgba(11, 109, 127, 0.12);
+  --sc-accent-2: #5b41ad;
+  --sc-accent-2-soft: rgba(91, 65, 173, 0.12);
+
+  --sc-good: #12724f;
+  --sc-good-soft: rgba(18, 114, 79, 0.12);
+  --sc-warn: #7d5305;
+  --sc-warn-soft: rgba(125, 83, 5, 0.13);
+
+  --sc-band-1: #62cadb;
+  --sc-band-2: #7fa8ea;
+  --sc-band-3: #9b83e8;
+  --sc-band-4: #c185d4;
+  --sc-band-5: #e3a445;
+  --sc-band-6: #35b985;
+
+  --sc-shadow-sm: 0 1px 2px rgba(19, 24, 44, 0.05);
+  --sc-shadow: 0 1px 2px rgba(19, 24, 44, 0.04), 0 10px 28px -14px rgba(19, 24, 44, 0.22);
+  --sc-shadow-lg: 0 2px 6px rgba(19, 24, 44, 0.06), 0 32px 64px -24px rgba(19, 24, 44, 0.3);
+
+  --sc-radius: 14px;
+  --sc-radius-lg: 18px;
+
+  display: block;
+  min-height: 100vh;
+  background: radial-gradient(1100px 620px at 8% -12%, var(--sc-accent-soft), transparent 62%),
+    radial-gradient(920px 540px at 92% -4%, var(--sc-accent-2-soft), transparent 58%), var(--sc-ground);
+  background-attachment: fixed;
+  color: var(--sc-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  .scope {
+    --sc-ground: #080b14;
+    --sc-surface: rgba(255, 255, 255, 0.05);
+    --sc-surface-strong: rgba(255, 255, 255, 0.085);
+    --sc-surface-solid: #10141f;
+    --sc-line: rgba(255, 255, 255, 0.085);
+    --sc-line-hi: rgba(255, 255, 255, 0.16);
+    --sc-text: #eef1fb;
+    --sc-text-dim: #a3abc6;
+    --sc-text-faint: #838bab;
+
+    --sc-accent: #6fd3e6;
+    --sc-accent-soft: rgba(111, 211, 230, 0.13);
+    --sc-accent-2: #b096f7;
+    --sc-accent-2-soft: rgba(176, 150, 247, 0.14);
+
+    --sc-good: #3ecf8e;
+    --sc-good-soft: rgba(62, 207, 142, 0.14);
+    --sc-warn: #f0b94d;
+    --sc-warn-soft: rgba(240, 185, 77, 0.14);
+
+    --sc-band-1: #5ec4d6;
+    --sc-band-2: #7ba3e6;
+    --sc-band-3: #9a82e6;
+    --sc-band-4: #bd80d0;
+    --sc-band-5: #dd9f42;
+    --sc-band-6: #33b381;
+
+    --sc-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --sc-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 14px 36px -16px rgba(0, 0, 0, 0.7);
+    --sc-shadow-lg: 0 2px 8px rgba(0, 0, 0, 0.4), 0 40px 80px -28px rgba(0, 0, 0, 0.85);
+  }
+}
+
+.scope * {
+  box-sizing: border-box;
+}
+
+.scope a {
+  color: inherit;
+}
+
+.scope button {
+  font: inherit;
+  color: inherit;
+}
+
+.scope :focus-visible {
+  outline: 2px solid var(--sc-accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.scope ::selection {
+  background: var(--sc-accent-soft);
+}
+
+.scope ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.scope ::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scope ::-webkit-scrollbar-thumb {
+  background: var(--sc-line-hi);
+  border-radius: 99px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+.scope ::-webkit-scrollbar-thumb:hover {
+  background: var(--sc-text-faint);
+  background-clip: content-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scope *,
+  .scope *::before,
+  .scope *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
